@@ -15,6 +15,9 @@
 		95F555BD1EE8821700B31104 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95F555BB1EE8821700B31104 /* LaunchScreen.storyboard */; };
 		95F555C81EE8821700B31104 /* claber2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F555C71EE8821700B31104 /* claber2Tests.swift */; };
 		95F555D31EE8821700B31104 /* claber2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F555D21EE8821700B31104 /* claber2UITests.swift */; };
+		95F555E11EE9C81900B31104 /* MasterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F555E01EE9C81900B31104 /* MasterCell.swift */; };
+		95F555E31EE9D07000B31104 /* trojka.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 95F555E21EE9D07000B31104 /* trojka.jpg */; };
+		95F555E51EE9D31400B31104 /* Podaci.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F555E41EE9D31400B31104 /* Podaci.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,9 @@
 		95F555CE1EE8821700B31104 /* claber2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = claber2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F555D21EE8821700B31104 /* claber2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = claber2UITests.swift; sourceTree = "<group>"; };
 		95F555D41EE8821700B31104 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		95F555E01EE9C81900B31104 /* MasterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterCell.swift; sourceTree = "<group>"; };
+		95F555E21EE9D07000B31104 /* trojka.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = trojka.jpg; path = ../../trojka.jpg; sourceTree = "<group>"; };
+		95F555E41EE9D31400B31104 /* Podaci.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Podaci.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +89,7 @@
 				95F555C61EE8821700B31104 /* claber2Tests */,
 				95F555D11EE8821700B31104 /* claber2UITests */,
 				95F555AD1EE8821700B31104 /* Products */,
+				95F555E21EE9D07000B31104 /* trojka.jpg */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +108,8 @@
 			children = (
 				95F555AF1EE8821700B31104 /* AppDelegate.swift */,
 				95F555B11EE8821700B31104 /* ViewController.swift */,
+				95F555E01EE9C81900B31104 /* MasterCell.swift */,
+				95F555E41EE9D31400B31104 /* Podaci.swift */,
 				95F555B31EE8821700B31104 /* Main.storyboard */,
 				95F555B91EE8821700B31104 /* Assets.xcassets */,
 				95F555BB1EE8821700B31104 /* LaunchScreen.storyboard */,
@@ -238,6 +247,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95F555E31EE9D07000B31104 /* trojka.jpg in Resources */,
 				95F555BD1EE8821700B31104 /* LaunchScreen.storyboard in Resources */,
 				95F555BA1EE8821700B31104 /* Assets.xcassets in Resources */,
 				95F555B51EE8821700B31104 /* Main.storyboard in Resources */,
@@ -266,8 +276,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				95F555B81EE8821700B31104 /* claber2.xcdatamodeld in Sources */,
+				95F555E51EE9D31400B31104 /* Podaci.swift in Sources */,
 				95F555B21EE8821700B31104 /* ViewController.swift in Sources */,
 				95F555B01EE8821700B31104 /* AppDelegate.swift in Sources */,
+				95F555E11EE9C81900B31104 /* MasterCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
