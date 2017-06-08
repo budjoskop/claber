@@ -126,7 +126,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="tableViewOutlet" destination="8bC-Xf-vdC" id="pnj-XC-8to"/>
+                        <outlet property="tableViewOutlet" destination="SLt-NG-zSy" id="3qH-W8-HCR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
