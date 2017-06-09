@@ -24,7 +24,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        tableViewOutlet.contentInset = UIEdgeInsets(top: 74, left: 0, bottom: 64, right: 0)
         fetchPodake()
     }
     
