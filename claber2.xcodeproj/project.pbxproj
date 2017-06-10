@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		95F37CB71EEB359E00F46F38 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F37CB61EEB359E00F46F38 /* EventDetailViewController.swift */; };
+		95F37CBB1EEC6F7700F46F38 /* Dostupnost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F37CBA1EEC6F7700F46F38 /* Dostupnost.swift */; };
 		95F555B01EE8821700B31104 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F555AF1EE8821700B31104 /* AppDelegate.swift */; };
 		95F555B21EE8821700B31104 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F555B11EE8821700B31104 /* ViewController.swift */; };
 		95F555B51EE8821700B31104 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95F555B31EE8821700B31104 /* Main.storyboard */; };
@@ -38,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		95F37CB61EEB359E00F46F38 /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
+		95F37CBA1EEC6F7700F46F38 /* Dostupnost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Dostupnost.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		95F555AC1EE8821700B31104 /* claber2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = claber2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F555AF1EE8821700B31104 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95F555B11EE8821700B31104 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -108,8 +112,10 @@
 			children = (
 				95F555AF1EE8821700B31104 /* AppDelegate.swift */,
 				95F555B11EE8821700B31104 /* ViewController.swift */,
+				95F37CB61EEB359E00F46F38 /* EventDetailViewController.swift */,
 				95F555E01EE9C81900B31104 /* MasterCell.swift */,
 				95F555E41EE9D31400B31104 /* Podaci.swift */,
+				95F37CBA1EEC6F7700F46F38 /* Dostupnost.swift */,
 				95F555B31EE8821700B31104 /* Main.storyboard */,
 				95F555B91EE8821700B31104 /* Assets.xcassets */,
 				95F555BB1EE8821700B31104 /* LaunchScreen.storyboard */,
@@ -275,6 +281,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95F37CBB1EEC6F7700F46F38 /* Dostupnost.swift in Sources */,
+				95F37CB71EEB359E00F46F38 /* EventDetailViewController.swift in Sources */,
 				95F555B81EE8821700B31104 /* claber2.xcdatamodeld in Sources */,
 				95F555E51EE9D31400B31104 /* Podaci.swift in Sources */,
 				95F555B21EE8821700B31104 /* ViewController.swift in Sources */,
@@ -532,6 +540,7 @@
 				95F555D91EE8821700B31104 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		95F555DA1EE8821700B31104 /* Build configuration list for PBXNativeTarget "claber2Tests" */ = {
 			isa = XCConfigurationList;
@@ -540,6 +549,7 @@
 				95F555DC1EE8821700B31104 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		95F555DD1EE8821700B31104 /* Build configuration list for PBXNativeTarget "claber2UITests" */ = {
 			isa = XCConfigurationList;
@@ -548,6 +558,7 @@
 				95F555DF1EE8821700B31104 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

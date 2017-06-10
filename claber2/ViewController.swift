@@ -13,10 +13,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     var celija = MasterCell()
     var podaci:[Podaci]? = []
+    let proveraNeta = Dostupnost()!
+    
     
     //OUTLETI
     
     @IBOutlet weak var tableViewOutlet: UITableView!
+    @IBOutlet weak var warningOutlet: UILabel!
+  
+   
+    
     
       
 
@@ -25,11 +31,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         tableViewOutlet.contentInset = UIEdgeInsets(top: 74, left: 0, bottom: 64, right: 0)
-        fetchPodake()
+        warningOutlet.isHidden = true
+        proveriNet()
+        
     }
     
-    //Obavezni metodi za TABELU
     
+    
+    //Obavezni metodi za TABELU
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     
@@ -43,12 +52,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "masterCell", for: indexPath) as! MasterCell
         
-        cell.eventOutlet.text = self.podaci?[indexPath.row].event
-        cell.placeOutlet.text = self.podaci?[indexPath.row].place
-        cell.descOutlet.text =  self.podaci?[indexPath.row].desc
+        cell.eventOutlet.text = self.podaci?[indexPath.item].event
+        cell.placeOutlet.text = self.podaci?[indexPath.item].place
+        cell.descOutlet.text =  self.podaci?[indexPath.item].desc
+        cell.imageOutlet.downloadImage(from: (self.podaci?[indexPath.item].imageUrl)!) //ovo levo ima veze sa ektenzijom za UIImageView
         
         return cell
-    
+        
     } 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -64,6 +74,36 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     
+   /*func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let eventVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "eventDetail") as! EventDetailViewController
+        let cell = tableView.dequeueReusableCell(withIdentifier: "masterCell", for: indexPath) as! MasterCell
+        eventVC.dogadjaj = podaci?[indexPath.item].event
+        eventVC.mesto = podaci?[indexPath.item].place
+        eventVC.opis = self.podaci?[indexPath.item].desc
+    
+  
+        self.present(eventVC, animated: true, completion: nil)
+        
+    }*/
+    
+    
+   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        // let cell = tableView.dequeueReusableCell(withIdentifier: "masterCell", for: indexPath) as! MasterCell
+      
+        if segue.identifier == "masterSegvej" {
+            let eventVC = segue.destination as! EventDetailViewController
+            let indexPath = self.tableViewOutlet.indexPathForSelectedRow!
+            eventVC.dogadjaj = podaci?[indexPath.item].event
+            eventVC.mesto = podaci?[indexPath.item].place
+            eventVC.opis = self.podaci?[indexPath.item].desc
+            eventVC.slika = self.podaci?[indexPath.item].imageUrl
+            
+        }
+    }
+    
+    
+    
     
     //FUNKCIJA ZA HVATANJE PODATAKA POMOCU JSON-a
     
@@ -72,7 +112,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let task = URLSession.shared.dataTask(with: urlRequets) { (data, response, error) in
             
             if error != nil {
-                print(error)
+                print(error as Any)
+                //DODATI KASNIJE ALERT ZA HVATANJE LOSE JSON-a
                 return
             }
             
@@ -99,11 +140,117 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     self.tableViewOutlet.reloadData()
                 }
                 
-                }catch let error {
-                print(error)
+                }
+                catch let error {
+                    
+                    print(error)
             }
         }
         task.resume()
     }
     
+    // AlertController
+    
+    
+    func displayAlert () {
+        
+        let alert = UIAlertController(title: "Pažnja", message: "Internet konekcija nije pronadjena", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        tableViewOutlet.isHidden = true
+        
+    }
+
+    
+    
+    // Funkcija za proveru Dostupnosti internet konekcije
+    
+    func proveriNet () {
+        
+        proveraNeta.whenReachable = { _ in
+            
+            DispatchQueue.main.async {
+                self.fetchPodake()
+            }
+        }
+        
+        proveraNeta.whenUnreachable = { _ in
+            DispatchQueue.main.async {
+                self.displayAlert()
+            }
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(internetChanged), name: ReachabilityChangedNotification, object: proveraNeta)
+        
+        do { try proveraNeta.startNotifier()
+        } catch {
+            print("Nije uspesno startovan notifier")
+        }
+    }
+    
+    
+    // funkcija promeneStanja internet konekcije u realnom vremenu
+    
+    func internetChanged (note: Notification) {
+        
+        let reachability = note.object as! Dostupnost
+        if reachability.isReachable {
+            if reachability.isReachableViaWiFi{
+                DispatchQueue.main.async {
+                    self.fetchPodake()
+                    self.tableViewOutlet.isHidden = false
+                    self.warningOutlet.isHidden = true
+                }
+            } else {
+                //ovo se odnosi za cellular
+                DispatchQueue.main.async {
+                    self.fetchPodake()
+                    self.tableViewOutlet.isHidden = false
+                    self.warningOutlet.isHidden = true
+                }
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.displayAlert()
+                self.warningOutlet.isHidden = false
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
 }
+
+
+
+
+
+// Extenzija da se parsuje url u UIImageView
+
+extension UIImageView {
+    
+    func downloadImage(from url: String) {
+        
+        let urlRequest = URLRequest (url: URL(string: url)!)
+        let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
+            
+            if error != nil {
+                print(error as Any)
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.image = UIImage(data: data!)
+            }
+        }
+        task.resume()
+        
+    }
+}
+
+
+
+
