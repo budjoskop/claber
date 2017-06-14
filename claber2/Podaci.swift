@@ -15,5 +15,4 @@ class Podaci: NSObject {
     var desc: String?
     var imageUrl: String?
     
-
 }

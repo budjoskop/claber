@@ -8,18 +8,29 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     
     var celija = MasterCell()
     var podaci:[Podaci]? = []
+    var filterArray:[Podaci] = []
     let proveraNeta = Dostupnost()!
+    var hasSearched = false
+    
+    
+    
+   
+    
+    
+
     
     
     //OUTLETI
     
     @IBOutlet weak var tableViewOutlet: UITableView!
     @IBOutlet weak var warningOutlet: UILabel!
+    @IBOutlet weak var searchBarOutlet: UISearchBar!
+    @IBOutlet weak var datePickerOutlet: UIDatePicker!
   
    
     
@@ -30,21 +41,26 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        tableViewOutlet.contentInset = UIEdgeInsets(top: 74, left: 0, bottom: 64, right: 0)
+        tableViewOutlet.contentInset = UIEdgeInsets(top: 94, left: 0, bottom: 64, right: 0)
         warningOutlet.isHidden = true
+        //searchBarOutlet.showsCancelButton = false
         proveriNet()
+        date()
         
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
+    
     
     
     
     //Obavezni metodi za TABELU
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    
+       
         return self.podaci?.count ?? 0 // ovo je koristan kod i kaze ako je podaci.count nije nil vrati .count ako jeste nil vrati 0
-        
-        
     }
     
     
@@ -52,10 +68,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "masterCell", for: indexPath) as! MasterCell
         
-        cell.eventOutlet.text = self.podaci?[indexPath.item].event
-        cell.placeOutlet.text = self.podaci?[indexPath.item].place
-        cell.descOutlet.text =  self.podaci?[indexPath.item].desc
-        cell.imageOutlet.downloadImage(from: (self.podaci?[indexPath.item].imageUrl)!) //ovo levo ima veze sa ektenzijom za UIImageView
+        if (self.podaci?.isEmpty)! {
+             print("Greska je nastala Array nije stigao da se napuni podaci.count")
+            
+                }
+        else {
+            
+            cell.eventOutlet.text = self.podaci?[indexPath.row].event
+            cell.placeOutlet.text = self.podaci?[indexPath.row].place
+            cell.descOutlet.text =  self.podaci?[indexPath.row].desc
+            cell.imageOutlet.downloadImage(from: (self.podaci?[indexPath.row].imageUrl)!) //ovo levo ima veze sa ektenzijom za UIImageView
+           
+            }
         
         return cell
         
@@ -88,16 +112,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        // let cell = tableView.dequeueReusableCell(withIdentifier: "masterCell", for: indexPath) as! MasterCell
-      
+    
         if segue.identifier == "masterSegvej" {
             let eventVC = segue.destination as! EventDetailViewController
             let indexPath = self.tableViewOutlet.indexPathForSelectedRow!
-            eventVC.dogadjaj = podaci?[indexPath.item].event
-            eventVC.mesto = podaci?[indexPath.item].place
-            eventVC.opis = self.podaci?[indexPath.item].desc
-            eventVC.slika = self.podaci?[indexPath.item].imageUrl
+            eventVC.dogadjaj = podaci?[indexPath.row].event
+            eventVC.mesto = podaci?[indexPath.row].place
+            eventVC.opis = self.podaci?[indexPath.row].desc
+            eventVC.slika = self.podaci?[indexPath.row].imageUrl
             
         }
     }
@@ -113,7 +135,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             if error != nil {
                 print(error as Any)
-                //DODATI KASNIJE ALERT ZA HVATANJE LOSE JSON-a
+                //DODATI KASNIJE ALERT ZA HVATANJE LOSEG JSON-a
                 return
             }
             
@@ -126,19 +148,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
                 if let podaciIzJsona = json["articles"] as? [[String: AnyObject]] {
                     for podatakJson in podaciIzJsona {
+                        
                         let data = Podaci()
-                        if let title = podatakJson["title"] as? String, let description = podatakJson["description"] as? String, let urlImage = podatakJson["urlToImage"] as? String {
+                        
+                        if let title = podatakJson["title"] as? String,
+                            let description = podatakJson["description"] as? String,
+                            let urlImage = podatakJson["urlToImage"] as? String {
+                            
                             data.event = title
                             data.desc = description
                             data.imageUrl = urlImage
                         }
+                        
                         self.podaci?.append(data)
+                        self.filterArray = self.podaci!
+                        
                     }
+                    
                 }
                 
                 DispatchQueue.main.async {
                     self.tableViewOutlet.reloadData()
-                }
+                    }
                 
                 }
                 catch let error {
@@ -217,11 +248,95 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     
+   /* func updateSearchResults(for searchController: UISearchController) {
+        pomocnaPromenljiva.filterSearch = pomocnaPromenljiva.ceoTableNiz.filter({ (array:String) -> Bool in
+            if pomocnaPromenljiva.ceoTableNiz.contains(searchBarOutlet.text!) {
+                print("Ovoliko ima u filtNizu \(pomocnaPromenljiva.filterSearch.count)")
+                return true
+            } else {
+                return false
+            }
+     })
+        tableViewOutlet.reloadData()
+        
+    }*/
+    
+    
+ 
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        
+        searchBarOutlet.endEditing(true)
+        searchBarOutlet.resignFirstResponder()
+        searchBarOutlet.showsCancelButton = false
+        
+        
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+         searchBarOutlet.showsCancelButton = true
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBarOutlet.showsCancelButton = true
+    }
+    
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBarOutlet.text == nil || searchBarOutlet.text == ""{
+            
+            hasSearched = false
+            searchBarOutlet.showsCancelButton = true
+            
+            podaci = filterArray
+            
+            view.endEditing(true)
+            self.tableViewOutlet.reloadData()
+            
+        } else {
+            
+            hasSearched = true
+            searchBarOutlet.showsCancelButton = true
+         
+            podaci = podaci?.filter({ (pod) -> Bool in
+                if (pod.event?.lowercased().contains((searchBarOutlet.text?.lowercased())!))!{
+                    
+                    return true
+                    
+                } else {
+        
+                    return false
+                }
+            })
+            
+            self.tableViewOutlet.reloadData()
+            
+        }
+       
+    }
+    
+    
+    //Funkcija DatePicker-a
+    
+    
+    func date(){
+        let date = Date()
+        var components = DateComponents()
+        components.day = +7
+        let maxDate = Calendar.current.date(byAdding: components, to: Date())
+        datePickerOutlet.minimumDate = date
+        datePickerOutlet.maximumDate = maxDate
+        datePickerOutlet.setValue(UIColor.white, forKeyPath: "textColor")
+        
+    }
+    
+
     
     
     
     
     
+/////////////// KRAJ KLASE UIVIEW KONTROLER
 }
 
 
@@ -250,6 +365,14 @@ extension UIImageView {
         
     }
 }
+
+
+
+
+
+
+
+
 
 
 
