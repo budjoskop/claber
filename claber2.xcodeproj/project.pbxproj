@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		951BDBF71EF7010D00EC0E39 /* SegueFromRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951BDBF61EF7010D00EC0E39 /* SegueFromRight.swift */; };
+		95B914941EF1D354004E0303 /* SegueFromLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B914931EF1D354004E0303 /* SegueFromLeft.swift */; };
 		95F37CB71EEB359E00F46F38 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F37CB61EEB359E00F46F38 /* EventDetailViewController.swift */; };
 		95F37CBB1EEC6F7700F46F38 /* Dostupnost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F37CBA1EEC6F7700F46F38 /* Dostupnost.swift */; };
 		95F555B01EE8821700B31104 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F555AF1EE8821700B31104 /* AppDelegate.swift */; };
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		951BDBF61EF7010D00EC0E39 /* SegueFromRight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueFromRight.swift; sourceTree = "<group>"; };
+		95B914931EF1D354004E0303 /* SegueFromLeft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueFromLeft.swift; sourceTree = "<group>"; };
 		95F37CB61EEB359E00F46F38 /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		95F37CBA1EEC6F7700F46F38 /* Dostupnost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Dostupnost.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		95F555AC1EE8821700B31104 /* claber2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = claber2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,6 +90,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		95B914951EF1D609004E0303 /* FunkcionalnostiApplikacije */ = {
+			isa = PBXGroup;
+			children = (
+				95B914931EF1D354004E0303 /* SegueFromLeft.swift */,
+				951BDBF61EF7010D00EC0E39 /* SegueFromRight.swift */,
+				95F37CBA1EEC6F7700F46F38 /* Dostupnost.swift */,
+			);
+			name = FunkcionalnostiApplikacije;
+			sourceTree = "<group>";
+		};
+		95B914961EF1D628004E0303 /* Kontroleri */ = {
+			isa = PBXGroup;
+			children = (
+				95F555B11EE8821700B31104 /* ViewController.swift */,
+				95F37CB61EEB359E00F46F38 /* EventDetailViewController.swift */,
+			);
+			name = Kontroleri;
+			sourceTree = "<group>";
+		};
+		95B914971EF1D648004E0303 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				95F555E01EE9C81900B31104 /* MasterCell.swift */,
+				95F555E41EE9D31400B31104 /* Podaci.swift */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
 		95F555A31EE8821700B31104 = {
 			isa = PBXGroup;
 			children = (
@@ -111,11 +143,9 @@
 			isa = PBXGroup;
 			children = (
 				95F555AF1EE8821700B31104 /* AppDelegate.swift */,
-				95F555B11EE8821700B31104 /* ViewController.swift */,
-				95F37CB61EEB359E00F46F38 /* EventDetailViewController.swift */,
-				95F555E01EE9C81900B31104 /* MasterCell.swift */,
-				95F555E41EE9D31400B31104 /* Podaci.swift */,
-				95F37CBA1EEC6F7700F46F38 /* Dostupnost.swift */,
+				95B914961EF1D628004E0303 /* Kontroleri */,
+				95B914971EF1D648004E0303 /* Data */,
+				95B914951EF1D609004E0303 /* FunkcionalnostiApplikacije */,
 				95F555B31EE8821700B31104 /* Main.storyboard */,
 				95F555B91EE8821700B31104 /* Assets.xcassets */,
 				95F555BB1EE8821700B31104 /* LaunchScreen.storyboard */,
@@ -287,7 +317,9 @@
 				95F555E51EE9D31400B31104 /* Podaci.swift in Sources */,
 				95F555B21EE8821700B31104 /* ViewController.swift in Sources */,
 				95F555B01EE8821700B31104 /* AppDelegate.swift in Sources */,
+				95B914941EF1D354004E0303 /* SegueFromLeft.swift in Sources */,
 				95F555E11EE9C81900B31104 /* MasterCell.swift in Sources */,
+				951BDBF71EF7010D00EC0E39 /* SegueFromRight.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

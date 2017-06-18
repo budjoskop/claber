@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UIScrollViewDelegate {
     
     
     var celija = MasterCell()
@@ -16,13 +16,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var filterArray:[Podaci] = []
     let proveraNeta = Dostupnost()!
     var hasSearched = false
-    
-    
-    
-   
-    
-    
-
+    var datum = Date()
     
     
     //OUTLETI
@@ -30,32 +24,40 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableViewOutlet: UITableView!
     @IBOutlet weak var warningOutlet: UILabel!
     @IBOutlet weak var searchBarOutlet: UISearchBar!
+    @IBOutlet weak var datePickerViewOutlet: UIView!
     @IBOutlet weak var datePickerOutlet: UIDatePicker!
-  
-   
+    @IBOutlet weak var dateLabelOutlet: UILabel!
+    @IBOutlet weak var dateBtnOutlet: UIButton!
+    @IBOutlet weak var resetBtnOutlet: UIButton!
+    @IBOutlet weak var doneBtnOutlet: UIButton!
+    @IBOutlet weak var dateInfoViewOutlet: UIView!
     
-    
-      
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         tableViewOutlet.contentInset = UIEdgeInsets(top: 94, left: 0, bottom: 64, right: 0)
+        dateInfoViewOutlet.layer.borderWidth = 0.4
+        dateInfoViewOutlet.layer.borderColor = UIColor.black.cgColor
+        tableViewOutlet.layer.borderWidth = 0.4
+        tableViewOutlet.layer.borderColor = UIColor.black.cgColor
+
+        
         warningOutlet.isHidden = true
+        datePickerViewOutlet.isHidden = true
+        dateBtnOutlet.layer.cornerRadius = 12
+        doneBtnOutlet.layer.cornerRadius = 12
+        resetBtnOutlet.layer.cornerRadius = 12
         //searchBarOutlet.showsCancelButton = false
+        dateFormatFunkcija()
+        
         proveriNet()
         date()
         
     }
+
     
-    override func viewDidAppear(_ animated: Bool) {
-        
-    }
-    
-    
-    
-    
+ 
     //Obavezni metodi za TABELU
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -97,6 +99,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return height
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchBarOutlet.resignFirstResponder()
+        searchBarOutlet.endEditing(true)
+        searchBarOutlet.showsCancelButton = false
+
+    }
+    
     
    /*func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let eventVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "eventDetail") as! EventDetailViewController
@@ -124,6 +133,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    
+  
     
     
     
@@ -153,11 +164,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                         
                         if let title = podatakJson["title"] as? String,
                             let description = podatakJson["description"] as? String,
-                            let urlImage = podatakJson["urlToImage"] as? String {
+                            let urlImage = podatakJson["urlToImage"] as? String,
+                            let url = podatakJson["url"] as? String {
                             
                             data.event = title
                             data.desc = description
                             data.imageUrl = urlImage
+                            data.place = url
                         }
                         
                         self.podaci?.append(data)
@@ -248,30 +261,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     
-   /* func updateSearchResults(for searchController: UISearchController) {
-        pomocnaPromenljiva.filterSearch = pomocnaPromenljiva.ceoTableNiz.filter({ (array:String) -> Bool in
-            if pomocnaPromenljiva.ceoTableNiz.contains(searchBarOutlet.text!) {
-                print("Ovoliko ima u filtNizu \(pomocnaPromenljiva.filterSearch.count)")
-                return true
-            } else {
-                return false
-            }
-     })
-        tableViewOutlet.reloadData()
-        
-    }*/
-    
-    
- 
-    
+    // Funkcije za SEARCH
+
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        
         searchBarOutlet.endEditing(true)
         searchBarOutlet.resignFirstResponder()
         searchBarOutlet.showsCancelButton = false
-        
-        
     }
+    
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
          searchBarOutlet.showsCancelButton = true
@@ -288,6 +285,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             hasSearched = false
             searchBarOutlet.showsCancelButton = true
             
+           
+            
             podaci = filterArray
             
             view.endEditing(true)
@@ -300,11 +299,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
          
             podaci = podaci?.filter({ (pod) -> Bool in
                 if (pod.event?.lowercased().contains((searchBarOutlet.text?.lowercased())!))!{
-                    
+                                        
                     return true
                     
                 } else {
-        
+                    
                     return false
                 }
             })
@@ -316,7 +315,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     
-    //Funkcija DatePicker-a
+    
+    //Funkcije DatePicker-a
     
     
     func date(){
@@ -326,9 +326,85 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let maxDate = Calendar.current.date(byAdding: components, to: Date())
         datePickerOutlet.minimumDate = date
         datePickerOutlet.maximumDate = maxDate
-        datePickerOutlet.setValue(UIColor.white, forKeyPath: "textColor")
+        datePickerOutlet.setValue(UIColor.black, forKeyPath: "textColor")
+    }
+    
+    func dateFormatFunkcija (){
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "dd/MM/yy"
+        let inputDate = dateFormater.string(from: datum)
+        dateLabelOutlet.text = "\(inputDate)"
+    }
+    
+ 
+    
+    
+    @IBAction func dateBtn(_ sender: Any) {
+        datePickerViewOutlet.isHidden = false
+        dateLabelOutlet.isHidden = true
+        resetBtnOutlet.isHidden = true
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = tableViewOutlet.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tableViewOutlet.addSubview(blurEffectView)
+        
+        UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = 200}
+        tableViewOutlet.isScrollEnabled = false
+        tableViewOutlet.allowsSelection = false
+        dateBtnOutlet.isHidden = true
+        searchBarOutlet.isUserInteractionEnabled = false
+       
+    }
+    
+    @IBAction func doneBtn(_ sender: Any) {
+        datePickerViewOutlet.isHidden = true
+        dateLabelOutlet.isHidden = false
+        searchBarOutlet.isUserInteractionEnabled = true
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = tableViewOutlet.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        
+        
+        for subview in tableViewOutlet.subviews {
+            if subview is UIVisualEffectView {
+                subview.removeFromSuperview()
+            }
+        }
+        
+        UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = 0}
+        tableViewOutlet.isScrollEnabled = true
+        dateBtnOutlet.isHidden = false
+        tableViewOutlet.allowsSelection = true
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "dd/MM/yy"
+        let inputDate = dateFormater.string(from: datePickerOutlet.date)
+        dateLabelOutlet.text = "\(inputDate)"
+    }
+    
+    @IBAction func resetBtn(_ sender: Any) {
+        
+        searchBarOutlet.isUserInteractionEnabled = true
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "dd/MM/yy"
+        let inputDate = dateFormater.string(from: datum)
+        dateLabelOutlet.text = "\(inputDate)"
+        datePickerOutlet.date = Date()
+        resetBtnOutlet.isHidden = true
         
     }
+ 
+    @IBAction func datePickerBtn(_ sender: Any) {
+        
+        
+        resetBtnOutlet.isHidden = false
+        
+        
+        
+    }
+    
     
 
     
@@ -345,9 +421,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
 // Extenzija da se parsuje url u UIImageView
 
+let imageCache = NSCache<AnyObject, AnyObject>()
+
 extension UIImageView {
     
     func downloadImage(from url: String) {
+        
+        image = nil
+        
+        if let imageFromCache = imageCache.object(forKey: url as AnyObject) as? UIImage {
+            
+            self.image = imageFromCache
+            return
+            
+        }
         
         let urlRequest = URLRequest (url: URL(string: url)!)
         let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
@@ -358,7 +445,10 @@ extension UIImageView {
             }
             
             DispatchQueue.main.async {
-                self.image = UIImage(data: data!)
+                
+                let imageToCache = UIImage(data: data!)
+                imageCache.setObject(imageToCache!, forKey: url as AnyObject)
+                self.image = imageToCache
             }
         }
         task.resume()
