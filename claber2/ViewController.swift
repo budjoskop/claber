@@ -31,6 +31,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var resetBtnOutlet: UIButton!
     @IBOutlet weak var doneBtnOutlet: UIButton!
     @IBOutlet weak var dateInfoViewOutlet: UIView!
+    @IBOutlet weak var infoDateOutlet: UILabel!
+   
+    
     
 
     override func viewDidLoad() {
@@ -41,29 +44,34 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         dateInfoViewOutlet.layer.borderColor = UIColor.black.cgColor
         tableViewOutlet.layer.borderWidth = 0.4
         tableViewOutlet.layer.borderColor = UIColor.black.cgColor
-
+        
         
         warningOutlet.isHidden = true
         datePickerViewOutlet.isHidden = true
+        infoDateOutlet.isHidden = true
         dateBtnOutlet.layer.cornerRadius = 12
         doneBtnOutlet.layer.cornerRadius = 12
         resetBtnOutlet.layer.cornerRadius = 12
         //searchBarOutlet.showsCancelButton = false
         dateFormatFunkcija()
-        
         proveriNet()
         date()
-        
     }
-
+    
+   
+    
     
  
     //Obavezni metodi za TABELU
+    
+    
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        
         return self.podaci?.count ?? 0 // ovo je koristan kod i kaze ako je podaci.count nije nil vrati .count ako jeste nil vrati 0
     }
+    
     
     
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -72,7 +80,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         if (self.podaci?.isEmpty)! {
              print("Greska je nastala Array nije stigao da se napuni podaci.count")
-            
+           
                 }
         else {
             
@@ -80,23 +88,44 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.placeOutlet.text = self.podaci?[indexPath.row].place
             cell.descOutlet.text =  self.podaci?[indexPath.row].desc
             cell.imageOutlet.downloadImage(from: (self.podaci?[indexPath.row].imageUrl)!) //ovo levo ima veze sa ektenzijom za UIImageView
+            cell.imageOutlet.layer.cornerRadius = 50
            
-            }
+      
+          
+            
+            //cell.backgroundView?.contentMode = .scaleToFill
         
+            
+            func getRandomColor() -> UIColor{
+                //Generate between 0 to 1
+                let red:CGFloat = CGFloat(drand48())
+                let green:CGFloat = CGFloat(drand48())
+                let blue:CGFloat = CGFloat(drand48())
+                
+                return UIColor(red:red, green: green, blue: blue, alpha: 1.0)
+                
+            }
+            
+            let randColor =  getRandomColor()
+            
+        
+            cell.backgroundColor = randColor
+            cell.eventOutlet.textColor = UIColor(white: 1, alpha: 1)
+            cell.placeOutlet.textColor = UIColor(white: 1, alpha: 1)
+            cell.descOutlet.textColor = UIColor(white: 1, alpha: 1)
+        }
+        
+        
+        
+               
         return cell
         
     } 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        var height:CGFloat = CGFloat()
-        if indexPath.row == 0 {
-            height = 180
-        }
-        else {
-            height = 130
-        }
+        let height = 130
         
-        return height
+        return CGFloat(height)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -269,6 +298,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         searchBarOutlet.showsCancelButton = false
     }
     
+   
+    
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
          searchBarOutlet.showsCancelButton = true
@@ -276,19 +307,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBarOutlet.showsCancelButton = true
+        podaci = filterArray
+        searchFunkcija()
+        print ("ovde si usao")
     }
     
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    
+    func searchFunkcija () {
+        
         if searchBarOutlet.text == nil || searchBarOutlet.text == ""{
             
             hasSearched = false
             searchBarOutlet.showsCancelButton = true
-            
-           
-            
             podaci = filterArray
-            
             view.endEditing(true)
             self.tableViewOutlet.reloadData()
             
@@ -296,10 +328,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             hasSearched = true
             searchBarOutlet.showsCancelButton = true
-         
+            podaci = filterArray
+            
+            
             podaci = podaci?.filter({ (pod) -> Bool in
-                if (pod.event?.lowercased().contains((searchBarOutlet.text?.lowercased())!))!{
-                                        
+                if (pod.event?.lowercased().contains((searchBarOutlet.text?.lowercased())!))! || (pod.place?.lowercased().contains((searchBarOutlet.text?.lowercased())!))! || (pod.desc?.lowercased().contains((searchBarOutlet.text?.lowercased())!))! {
+                    
                     return true
                     
                 } else {
@@ -311,7 +345,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.tableViewOutlet.reloadData()
             
         }
-       
+        
+    }
+    
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    
+        searchFunkcija()
+    
     }
     
     
@@ -352,6 +393,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = 200}
         tableViewOutlet.isScrollEnabled = false
         tableViewOutlet.allowsSelection = false
+        infoDateOutlet.isHidden = false
         dateBtnOutlet.isHidden = true
         searchBarOutlet.isUserInteractionEnabled = false
        
@@ -360,6 +402,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBAction func doneBtn(_ sender: Any) {
         datePickerViewOutlet.isHidden = true
         dateLabelOutlet.isHidden = false
+        infoDateOutlet.isHidden = true
         searchBarOutlet.isUserInteractionEnabled = true
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
