@@ -31,6 +31,10 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var dogadjajOutlet: UILabel!
     @IBOutlet weak var mestoOutlet: UILabel!
     @IBOutlet weak var opisOutlet: UILabel!
+    @IBOutlet weak var titleOutlet: UINavigationItem!
+    @IBOutlet weak var containerOutlet: UIView!
+    
+    
     
     
 
@@ -51,7 +55,7 @@ class EventDetailViewController: UIViewController {
         mestoOutlet.text = mesto
         opisOutlet.text = opis
         eventImageOutlet.downloadImage(from: slika!)
-    
+        titleOutlet.title = dogadjaj
     }
 
 }

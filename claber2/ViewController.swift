@@ -19,6 +19,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var datum = Date()
     
     
+    
     //OUTLETI
     
     @IBOutlet weak var tableViewOutlet: UITableView!
@@ -32,7 +33,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var doneBtnOutlet: UIButton!
     @IBOutlet weak var dateInfoViewOutlet: UIView!
     @IBOutlet weak var infoDateOutlet: UILabel!
-   
+    
+    
     
     
 
@@ -90,34 +92,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.imageOutlet.downloadImage(from: (self.podaci?[indexPath.row].imageUrl)!) //ovo levo ima veze sa ektenzijom za UIImageView
             cell.imageOutlet.layer.cornerRadius = 50
            
-      
-          
-            
             //cell.backgroundView?.contentMode = .scaleToFill
         
-            
             func getRandomColor() -> UIColor{
                 //Generate between 0 to 1
                 let red:CGFloat = CGFloat(drand48())
                 let green:CGFloat = CGFloat(drand48())
                 let blue:CGFloat = CGFloat(drand48())
-                
                 return UIColor(red:red, green: green, blue: blue, alpha: 1.0)
-                
             }
             
             let randColor =  getRandomColor()
-            
-        
-            cell.backgroundColor = randColor
+            cell.cellEfectOutlet.backgroundColor = randColor
             cell.eventOutlet.textColor = UIColor(white: 1, alpha: 1)
             cell.placeOutlet.textColor = UIColor(white: 1, alpha: 1)
             cell.descOutlet.textColor = UIColor(white: 1, alpha: 1)
         }
         
-        
-        
-               
         return cell
         
     } 
@@ -152,13 +143,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
         if segue.identifier == "masterSegvej" {
-            let eventVC = segue.destination as! EventDetailViewController
+            let eventVC = segue.destination as! UINavigationController
+            let svc = eventVC.topViewController as! EventDetailViewController
             let indexPath = self.tableViewOutlet.indexPathForSelectedRow!
-            eventVC.dogadjaj = podaci?[indexPath.row].event
-            eventVC.mesto = podaci?[indexPath.row].place
-            eventVC.opis = self.podaci?[indexPath.row].desc
-            eventVC.slika = self.podaci?[indexPath.row].imageUrl
-            
+            svc.dogadjaj = podaci?[indexPath.row].event
+            svc.mesto = podaci?[indexPath.row].place
+            svc.opis = self.podaci?[indexPath.row].desc
+            svc.slika = self.podaci?[indexPath.row].imageUrl
+            print ("Provera da li ima slika \(svc.slika)")
         }
     }
     

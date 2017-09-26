@@ -18,6 +18,7 @@ class MasterCell: UITableViewCell {
     @IBOutlet weak var placeOutlet: UILabel!
     @IBOutlet weak var descOutlet: UILabel!
     @IBOutlet weak var imageOutlet: UIImageView!
+    @IBOutlet weak var cellEfectOutlet: UIVisualEffectView!
     
 
     override func awakeFromNib() {
