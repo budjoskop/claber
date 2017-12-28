@@ -14,5 +14,8 @@ class Podaci: NSObject {
     var place: String?
     var desc: String?
     var imageUrl: String?
+    var clubUrl: String?
+    var date: String?
+    var time: String?
     
 }

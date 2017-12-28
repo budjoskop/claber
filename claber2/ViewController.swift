@@ -89,8 +89,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.eventOutlet.text = self.podaci?[indexPath.row].event
             cell.placeOutlet.text = self.podaci?[indexPath.row].place
             cell.descOutlet.text =  self.podaci?[indexPath.row].desc
-            cell.imageOutlet.downloadImage(from: (self.podaci?[indexPath.row].imageUrl)!) //ovo levo ima veze sa ektenzijom za UIImageView
-            cell.imageOutlet.layer.cornerRadius = 50
+            cell.imageOutlet.downloadImage(from: (self.podaci?[indexPath.row].clubUrl)!) //ovo levo ima veze sa ektenzijom za UIImageView
+            
            
             //cell.backgroundView?.contentMode = .scaleToFill
         
@@ -149,8 +149,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             svc.dogadjaj = podaci?[indexPath.row].event
             svc.mesto = podaci?[indexPath.row].place
             svc.opis = self.podaci?[indexPath.row].desc
+            svc.date = self.podaci?[indexPath.row].date
             svc.slika = self.podaci?[indexPath.row].imageUrl
-            print ("Provera da li ima slika \(svc.slika)")
+           
         }
     }
     
@@ -162,7 +163,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     //FUNKCIJA ZA HVATANJE PODATAKA POMOCU JSON-a
     
     func fetchPodake (){
-        let urlRequets = URLRequest(url: URL(string: "https://newsapi.org/v1/articles?source=mtv-news&sortBy=latest&apiKey=fae6d18b8b32450788c450231dd79f33")!)
+        let urlRequets = URLRequest(url: URL(string: "https://raw.githubusercontent.com/dperkosan/cluber/master/events.json")!)
         let task = URLSession.shared.dataTask(with: urlRequets) { (data, response, error) in
             
             if error != nil {
@@ -175,23 +176,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             do {
                 let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [String: AnyObject]
-                
+       
                 //ovo je castovanje u niz Dictionarie
                 
-                if let podaciIzJsona = json["articles"] as? [[String: AnyObject]] {
+                if let podaciIzJsona = json["events"] as? [[String: AnyObject]] {
                     for podatakJson in podaciIzJsona {
                         
                         let data = Podaci()
                         
-                        if let title = podatakJson["title"] as? String,
-                            let description = podatakJson["description"] as? String,
-                            let urlImage = podatakJson["urlToImage"] as? String,
-                            let url = podatakJson["url"] as? String {
+                        if let title = podatakJson["EventName"] as? String,
+                            let description = podatakJson["EventDescription"] as? String,
+                            let urlImage = podatakJson["EventImage"] as? String,
+                            let place = podatakJson["ClubName"] as? String,
+                            let eventDate = podatakJson["EventStartTime"] as? String,
+                            let clubImage = podatakJson ["ClubImage"] as? String {
                             
                             data.event = title
                             data.desc = description
                             data.imageUrl = urlImage
-                            data.place = url
+                            data.place = place
+                            data.clubUrl = clubImage
+                            data.date = eventDate
+                           
                         }
                         
                         self.podaci?.append(data)
@@ -255,7 +261,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // funkcija promeneStanja internet konekcije u realnom vremenu
     
-    func internetChanged (note: Notification) {
+    @objc func internetChanged (note: Notification) {
         
         let reachability = note.object as! Dostupnost
         if reachability.isReachable {

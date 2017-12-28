@@ -19,6 +19,7 @@ class EventDetailViewController: UIViewController {
     var dogadjaj:String?
     var mesto: String?
     var opis:String?
+    var date:String?
     
     
     
@@ -27,10 +28,9 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var eventImageOutlet: UIImageView!
     @IBOutlet weak var visualOutlet: UIVisualEffectView!
     @IBOutlet weak var dateOutlet: UILabel!
-    @IBOutlet weak var timeOutlet: UILabel!
     @IBOutlet weak var dogadjajOutlet: UILabel!
     @IBOutlet weak var mestoOutlet: UILabel!
-    @IBOutlet weak var opisOutlet: UILabel!
+    @IBOutlet weak var opisOutlet: UITextView!
     @IBOutlet weak var titleOutlet: UINavigationItem!
     @IBOutlet weak var containerOutlet: UIView!
     
@@ -43,10 +43,13 @@ class EventDetailViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         ubacivanjePodataka()
+       
         
     }
     
-
+    override func viewDidLayoutSubviews() {
+        self.opisOutlet.setContentOffset(.zero, animated: false)
+    }
     
     func ubacivanjePodataka() {
         
@@ -56,6 +59,7 @@ class EventDetailViewController: UIViewController {
         opisOutlet.text = opis
         eventImageOutlet.downloadImage(from: slika!)
         titleOutlet.title = dogadjaj
+        dateOutlet.text = "Date: \(date!)"
     }
 
 }
