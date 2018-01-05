@@ -19,6 +19,9 @@ class MasterCell: UITableViewCell {
     @IBOutlet weak var descOutlet: UILabel!
     @IBOutlet weak var imageOutlet: UIImageView!
     @IBOutlet weak var cellEfectOutlet: UIVisualEffectView!
+    var dateEvent:String?
+    var checkDate:Date?
+    
     
 
     override func awakeFromNib() {

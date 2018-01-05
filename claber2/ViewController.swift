@@ -14,9 +14,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var celija = MasterCell()
     var podaci:[Podaci]? = []
     var filterArray:[Podaci] = []
+    var dayArray:[Podaci] = []
     let proveraNeta = Dostupnost()!
     var hasSearched = false
     var datum = Date()
+    let formatter = DateFormatter()
+    var loadDate = String()
+    var dateFilter = Int()
+    
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
+        refreshControl.tintColor = UIColor.red
+        
+        return refreshControl
+    }()
     
     
     
@@ -33,6 +45,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var doneBtnOutlet: UIButton!
     @IBOutlet weak var dateInfoViewOutlet: UIView!
     @IBOutlet weak var infoDateOutlet: UILabel!
+  
     
     
     
@@ -46,99 +59,85 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         dateInfoViewOutlet.layer.borderColor = UIColor.black.cgColor
         tableViewOutlet.layer.borderWidth = 0.4
         tableViewOutlet.layer.borderColor = UIColor.black.cgColor
-        
-        
         warningOutlet.isHidden = true
         datePickerViewOutlet.isHidden = true
         infoDateOutlet.isHidden = true
         dateBtnOutlet.layer.cornerRadius = 12
         doneBtnOutlet.layer.cornerRadius = 12
         resetBtnOutlet.layer.cornerRadius = 12
-        //searchBarOutlet.showsCancelButton = false
         dateFormatFunkcija()
         proveriNet()
         date()
+        loadDate = dateLabelOutlet.text!
+        print("OVO JE DATUM PRILIKOM LOAD-a \(loadDate)")
+        self.tableViewOutlet.addSubview(self.refreshControl)
     }
     
    
     
-    
- 
-    //Obavezni metodi za TABELU
-    
-    
 
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
-        return self.podaci?.count ?? 0 // ovo je koristan kod i kaze ako je podaci.count nije nil vrati .count ako jeste nil vrati 0
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        // Do some reloading of data and update the table view's data source
+        // Fetch more objects from a web service, for example...
+        self.tableViewOutlet.reloadData()
+        refreshControl.endRefreshing()
     }
+    
+    
+    //Obavezni metodi za TABELU
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        formatter.dateFormat = "dd/MM/yy"
+        // Add Refresh Control to Table View
+        let calendar = Calendar.current
+        let loadDateFromPicker = formatter.date(from: loadDate)
+        dateFilter = calendar.component(.day, from: loadDateFromPicker!)
+        print ("do ovde si uspeo da doguras \(dateFilter)")
+        self.dayArray = self.podaci!.filter({return $0.day ==  dateFilter})
+        return self.dayArray.count
+        //return self.podaci?.count ?? 0 // ovo je koristan kod i kaze ako je podaci.count nije nil vrati .count ako jeste nil vrati 0
+    }
+    
     
     
     
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "masterCell", for: indexPath) as! MasterCell
+    
+        //Table Load
         
         if (self.podaci?.isEmpty)! {
-             print("Greska je nastala Array nije stigao da se napuni podaci.count")
-           
-                }
+             print("Greska je nastala Array nije stigao da se napuni podaci.count")}
+            
         else {
-            
-            cell.eventOutlet.text = self.podaci?[indexPath.row].event
-            cell.placeOutlet.text = self.podaci?[indexPath.row].place
-            cell.descOutlet.text =  self.podaci?[indexPath.row].desc
-            cell.imageOutlet.downloadImage(from: (self.podaci?[indexPath.row].clubUrl)!) //ovo levo ima veze sa ektenzijom za UIImageView
-            
-           
-            //cell.backgroundView?.contentMode = .scaleToFill
-        
-            func getRandomColor() -> UIColor{
-                //Generate between 0 to 1
-                let red:CGFloat = CGFloat(drand48())
-                let green:CGFloat = CGFloat(drand48())
-                let blue:CGFloat = CGFloat(drand48())
-                return UIColor(red:red, green: green, blue: blue, alpha: 1.0)
+                cell.eventOutlet.text = self.dayArray[indexPath.row].event
+                cell.placeOutlet.text = self.dayArray[indexPath.row].place
+                cell.descOutlet.text =  self.dayArray[indexPath.row].desc
+                cell.imageOutlet.downloadImage(from: (self.dayArray[indexPath.row].clubUrl)!) //ovo levo ima veze sa ektenzijom za UIImageView
+                //cell.backgroundView?.contentMode = .scaleToFill
+                func getRandomColor() -> UIColor{
+                    //Generate between 0 to 1
+                    let red:CGFloat = CGFloat(drand48())
+                    let green:CGFloat = CGFloat(drand48())
+                    let blue:CGFloat = CGFloat(drand48())
+                    return UIColor(red:red, green: green, blue: blue, alpha: 1.0)
+                    }
+                let randColor =  getRandomColor()
+                cell.cellEfectOutlet.backgroundColor = randColor
+                cell.eventOutlet.textColor = UIColor(white: 1, alpha: 1)
+                cell.placeOutlet.textColor = UIColor(white: 1, alpha: 1)
+                cell.descOutlet.textColor = UIColor(white: 1, alpha: 1)
             }
-            
-            let randColor =  getRandomColor()
-            cell.cellEfectOutlet.backgroundColor = randColor
-            cell.eventOutlet.textColor = UIColor(white: 1, alpha: 1)
-            cell.placeOutlet.textColor = UIColor(white: 1, alpha: 1)
-            cell.descOutlet.textColor = UIColor(white: 1, alpha: 1)
-        }
-        
         return cell
-        
     } 
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = 130
-        
-        return CGFloat(height)
-    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         searchBarOutlet.resignFirstResponder()
         searchBarOutlet.endEditing(true)
         searchBarOutlet.showsCancelButton = false
-
     }
-    
-    
-   /*func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let eventVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "eventDetail") as! EventDetailViewController
-        let cell = tableView.dequeueReusableCell(withIdentifier: "masterCell", for: indexPath) as! MasterCell
-        eventVC.dogadjaj = podaci?[indexPath.item].event
-        eventVC.mesto = podaci?[indexPath.item].place
-        eventVC.opis = self.podaci?[indexPath.item].desc
-    
-  
-        self.present(eventVC, animated: true, completion: nil)
-        
-    }*/
-    
     
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
@@ -146,24 +145,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             let eventVC = segue.destination as! UINavigationController
             let svc = eventVC.topViewController as! EventDetailViewController
             let indexPath = self.tableViewOutlet.indexPathForSelectedRow!
-            svc.dogadjaj = podaci?[indexPath.row].event
-            svc.mesto = podaci?[indexPath.row].place
-            svc.opis = self.podaci?[indexPath.row].desc
-            svc.date = self.podaci?[indexPath.row].date
-            svc.slika = self.podaci?[indexPath.row].imageUrl
+            svc.dogadjaj = dayArray[indexPath.row].event
+            svc.mesto = dayArray[indexPath.row].place
+            svc.opis = self.dayArray[indexPath.row].desc
+            svc.date = self.dayArray[indexPath.row].date
+            svc.slika = self.dayArray[indexPath.row].imageUrl
            
         }
     }
     
-    
-  
-    
-    
-    
-    //FUNKCIJA ZA HVATANJE PODATAKA POMOCU JSON-a
+    //Func to catch JSON feed
     
     func fetchPodake (){
-        let urlRequets = URLRequest(url: URL(string: "https://raw.githubusercontent.com/dperkosan/cluber/master/events.json")!)
+        let urlRequets = URLRequest(url: URL(string: "https://raw.githubusercontent.com/dperkosan/cluber/master/events2.json")!)
         let task = URLSession.shared.dataTask(with: urlRequets) { (data, response, error) in
             
             if error != nil {
@@ -190,30 +184,27 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                             let place = podatakJson["ClubName"] as? String,
                             let eventDate = podatakJson["EventStartTime"] as? String,
                             let clubImage = podatakJson ["ClubImage"] as? String {
-                            
                             data.event = title
                             data.desc = description
                             data.imageUrl = urlImage
                             data.place = place
                             data.clubUrl = clubImage
                             data.date = eventDate
-                           
+                            self.formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                            data.checkDate = self.formatter.date(from: data.date!)
+                            let calendar = Calendar.current
+                            data.day = calendar.component(.day, from: data.checkDate!)
+                            data.month = calendar.component(.month, from: data.checkDate!)
                         }
-                        
                         self.podaci?.append(data)
                         self.filterArray = self.podaci!
-                        
                     }
-                    
                 }
-                
                 DispatchQueue.main.async {
                     self.tableViewOutlet.reloadData()
                     }
-                
                 }
                 catch let error {
-                    
                     print(error)
             }
         }
@@ -222,29 +213,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // AlertController
     
-    
     func displayAlert () {
-        
         let alert = UIAlertController(title: "Pažnja", message: "Internet konekcija nije pronadjena", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
         tableViewOutlet.isHidden = true
-        
     }
 
-    
-    
     // Funkcija za proveru Dostupnosti internet konekcije
     
     func proveriNet () {
-        
         proveraNeta.whenReachable = { _ in
-            
             DispatchQueue.main.async {
                 self.fetchPodake()
             }
         }
-        
         proveraNeta.whenUnreachable = { _ in
             DispatchQueue.main.async {
                 self.displayAlert()
@@ -315,44 +298,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func searchFunkcija () {
         
         if searchBarOutlet.text == nil || searchBarOutlet.text == ""{
-            
             hasSearched = false
             searchBarOutlet.showsCancelButton = true
             podaci = filterArray
             view.endEditing(true)
             self.tableViewOutlet.reloadData()
-            
-        } else {
-            
+        }
+        else {
             hasSearched = true
             searchBarOutlet.showsCancelButton = true
-            podaci = filterArray
-            
-            
+            podaci = dayArray
             podaci = podaci?.filter({ (pod) -> Bool in
                 if (pod.event?.lowercased().contains((searchBarOutlet.text?.lowercased())!))! || (pod.place?.lowercased().contains((searchBarOutlet.text?.lowercased())!))! || (pod.desc?.lowercased().contains((searchBarOutlet.text?.lowercased())!))! {
-                    
                     return true
-                    
-                } else {
-                    
+                }
+                else {
                     return false
                 }
             })
-            
             self.tableViewOutlet.reloadData()
-            
         }
-        
     }
-    
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-    
         searchFunkcija()
-    
     }
-    
     
     
     //Funkcije DatePicker-a
@@ -372,10 +342,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "dd/MM/yy"
         let inputDate = dateFormater.string(from: datum)
+        print (inputDate)
         dateLabelOutlet.text = "\(inputDate)"
     }
-    
- 
     
     
     @IBAction func dateBtn(_ sender: Any) {
@@ -407,8 +376,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         blurEffectView.frame = tableViewOutlet.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        
-        
         for subview in tableViewOutlet.subviews {
             if subview is UIVisualEffectView {
                 subview.removeFromSuperview()
@@ -420,13 +387,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         dateBtnOutlet.isHidden = false
         tableViewOutlet.allowsSelection = true
         let dateFormater = DateFormatter()
+        let calendar = Calendar.current
         dateFormater.dateFormat = "dd/MM/yy"
         let inputDate = dateFormater.string(from: datePickerOutlet.date)
         dateLabelOutlet.text = "\(inputDate)"
+        loadDate = "\(inputDate)"
+        let loadDateFromPicker = formatter.date(from: loadDate)
+        dateFilter = calendar.component(.day, from: loadDateFromPicker!)
+        self.tableViewOutlet.reloadData()
+        print("Sad si uspeo ovo da izaberese \(dateFilter)")
     }
     
     @IBAction func resetBtn(_ sender: Any) {
-        
+    
         searchBarOutlet.isUserInteractionEnabled = true
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "dd/MM/yy"
@@ -438,11 +411,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
  
     @IBAction func datePickerBtn(_ sender: Any) {
-        
-        
         resetBtnOutlet.isHidden = false
-        
-        
         
     }
     
@@ -467,36 +436,30 @@ let imageCache = NSCache<AnyObject, AnyObject>()
 extension UIImageView {
     
     func downloadImage(from url: String) {
-        
         image = nil
-        
         if let imageFromCache = imageCache.object(forKey: url as AnyObject) as? UIImage {
-            
             self.image = imageFromCache
             return
-            
         }
-        
         let urlRequest = URLRequest (url: URL(string: url)!)
         let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
-            
             if error != nil {
                 print(error as Any)
                 return
             }
-            
             DispatchQueue.main.async {
-                
                 let imageToCache = UIImage(data: data!)
+                if imageToCache == nil {
+                    print(error as Any)
+                    return
+                }
                 imageCache.setObject(imageToCache!, forKey: url as AnyObject)
                 self.image = imageToCache
             }
         }
         task.resume()
-        
     }
 }
-
 
 
 

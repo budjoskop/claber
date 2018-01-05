@@ -16,6 +16,12 @@ class Podaci: NSObject {
     var imageUrl: String?
     var clubUrl: String?
     var date: String?
-    var time: String?
+    var dateShort:String?
+    var day: Int?
+    var month: Int?
+    var year: Int?
+    var checkDate: Date?
+    var eventCalendar: Calendar?
+   
     
 }

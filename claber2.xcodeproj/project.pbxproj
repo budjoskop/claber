@@ -122,7 +122,6 @@
 				95F555AE1EE8821700B31104 /* claber2 */,
 				95F555C61EE8821700B31104 /* claber2Tests */,
 				95F555D11EE8821700B31104 /* claber2UITests */,
-				95F555AD1EE8821700B31104 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,6 +133,7 @@
 				95F555CE1EE8821700B31104 /* claber2UITests.xctest */,
 			);
 			name = Products;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		95F555AE1EE8821700B31104 /* claber2 */ = {
@@ -164,6 +164,7 @@
 		95F555D11EE8821700B31104 /* claber2UITests */ = {
 			isa = PBXGroup;
 			children = (
+				95F555AD1EE8821700B31104 /* Products */,
 				95F555D21EE8821700B31104 /* claber2UITests.swift */,
 				95F555D41EE8821700B31104 /* Info.plist */,
 			);
