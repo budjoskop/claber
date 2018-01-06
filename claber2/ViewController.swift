@@ -448,8 +448,12 @@ extension UIImageView {
                 return
             }
             DispatchQueue.main.async {
-                let imageToCache = UIImage(data: data!)
+                var imageToCache = UIImage(data: data!)
                 if imageToCache == nil {
+                    let imageName = "claber.png"
+                    imageToCache = UIImage(named: imageName)
+                    imageCache.setObject(imageToCache!, forKey: url as AnyObject)
+                    self.image = imageToCache
                     print(error as Any)
                     return
                 }
