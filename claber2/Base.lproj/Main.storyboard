@@ -135,11 +135,13 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="addressOutlet" destination="NVq-th-ORq" id="7ea-DN-iYg"/>
                                             <outlet property="cellEfectOutlet" destination="lgQ-Dd-44e" id="0Qv-d2-af1"/>
                                             <outlet property="descOutlet" destination="D93-Lq-duL" id="i3t-LK-I3S"/>
                                             <outlet property="eventOutlet" destination="qgY-jA-HuA" id="oXF-sg-Hn0"/>
                                             <outlet property="imageOutlet" destination="QaD-GG-oc9" id="91h-FP-mG1"/>
                                             <outlet property="placeOutlet" destination="TVO-zd-Tqh" id="6Cn-IX-PgJ"/>
+                                            <outlet property="timeOutlet" destination="hKN-eM-olz" id="0vJ-pi-Pau"/>
                                             <segue destination="IO0-fV-nVF" kind="presentation" identifier="masterSegvej" customClass="TransitionFromRight" customModule="claber2" customModuleProvider="target" modalTransitionStyle="crossDissolve" id="gF2-X0-dAC"/>
                                         </connections>
                                     </tableViewCell>
@@ -159,7 +161,7 @@
                                 <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tabBar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Internet konekcija nije pronadjena" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CDJ-dn-QBy">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Network problem" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CDJ-dn-QBy">
                                 <rect key="frame" x="20" y="327" width="374" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.77566386010362698" green="0.77566386010362698" blue="0.77566386010362698" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -330,7 +332,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2203" y="-380"/>
+            <point key="canvasLocation" x="2202.898550724638" y="-380.70652173913044"/>
         </scene>
         <!--Title-->
         <scene sceneID="y1l-fu-nxz">

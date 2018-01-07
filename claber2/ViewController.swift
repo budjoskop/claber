@@ -45,7 +45,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var doneBtnOutlet: UIButton!
     @IBOutlet weak var dateInfoViewOutlet: UIView!
     @IBOutlet weak var infoDateOutlet: UILabel!
-  
+    
+    
     
     
     
@@ -93,7 +94,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if returnDate == "" {
-            print ("nalazis se ovde string je prazan")
+            print ("nalazis se ovde returnDate string je prazan")
             formatter.dateFormat = "dd/MM/yy"
             // Add Refresh Control to Table View
             let calendar = Calendar.current
@@ -103,7 +104,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.dayArray = self.podaci!.filter({return $0.day ==  dateFilter})
             //return self.podaci?.count ?? 0 // ovo je koristan kod i kaze ako je podaci.count nije nil vrati .count ako jeste nil vrati 0
         } else {
-             print ("nalazis se ovde STRING nije prazan")
+             print ("nalazis se ovde returnDate STRING nije prazan")
             formatter.dateFormat = "dd/MM/yy"
             // Add Refresh Control to Table View
             let calendar = Calendar.current
@@ -113,7 +114,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.dayArray = self.podaci!.filter({return $0.day ==  dateFilter})
             dateLabelOutlet.text = "\(returnDate)"
         }
-     
+        
+        if dayArray.count == 0 {
+            self.warningOutlet.isHidden = false
+            self.tableViewOutlet.isHidden = true
+        
+        } else {
+            self.warningOutlet.isHidden = true
+            self.tableViewOutlet.isHidden = false
+           
+          
+        }
+        
       return self.dayArray.count
     }
     
@@ -133,6 +145,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 cell.eventOutlet.text = self.dayArray[indexPath.row].event
                 cell.placeOutlet.text = self.dayArray[indexPath.row].place
                 cell.descOutlet.text =  self.dayArray[indexPath.row].desc
+                cell.addressOutlet.text =  self.dayArray[indexPath.row].address
                 cell.imageOutlet.downloadImage(from: (self.dayArray[indexPath.row].clubUrl)!) //ovo levo ima veze sa ektenzijom za UIImageView
                 //cell.backgroundView?.contentMode = .scaleToFill
                 func getRandomColor() -> UIColor{
@@ -201,6 +214,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                             let urlImage = podatakJson["EventImage"] as? String,
                             let place = podatakJson["ClubName"] as? String,
                             let eventDate = podatakJson["EventStartTime"] as? String,
+                            let eventStreet = podatakJson["EventStreet"] as? String,
                             let clubImage = podatakJson ["ClubImage"] as? String {
                             data.event = title
                             data.desc = description
@@ -208,6 +222,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                             data.place = place
                             data.clubUrl = clubImage
                             data.date = eventDate
+                            data.address = eventStreet
                             self.formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
                             data.checkDate = self.formatter.date(from: data.date!)
                             let calendar = Calendar.current
@@ -272,6 +287,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     self.fetchPodake()
                     self.tableViewOutlet.isHidden = false
                     self.warningOutlet.isHidden = true
+                    self.warningOutlet.text = "No events today"
                 }
             } else {
                 //ovo se odnosi za cellular
@@ -279,12 +295,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     self.fetchPodake()
                     self.tableViewOutlet.isHidden = false
                     self.warningOutlet.isHidden = true
+                    self.warningOutlet.text = "No events today"
                 }
             }
         } else {
             DispatchQueue.main.async {
                 self.displayAlert()
                 self.warningOutlet.isHidden = false
+                self.warningOutlet.text = "Network problem"
             }
         }
     }
