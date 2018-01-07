@@ -21,12 +21,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let formatter = DateFormatter()
     var loadDate = String()
     var dateFilter = Int()
+    var returnDate = ""
     
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
         refreshControl.tintColor = UIColor.red
-        
         return refreshControl
     }()
     
@@ -87,16 +87,34 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     //Obavezni metodi za TABELU
     
+
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        formatter.dateFormat = "dd/MM/yy"
-        // Add Refresh Control to Table View
-        let calendar = Calendar.current
-        let loadDateFromPicker = formatter.date(from: loadDate)
-        dateFilter = calendar.component(.day, from: loadDateFromPicker!)
-        print ("do ovde si uspeo da doguras \(dateFilter)")
-        self.dayArray = self.podaci!.filter({return $0.day ==  dateFilter})
-        return self.dayArray.count
-        //return self.podaci?.count ?? 0 // ovo je koristan kod i kaze ako je podaci.count nije nil vrati .count ako jeste nil vrati 0
+        
+        if returnDate == "" {
+            print ("nalazis se ovde string je prazan")
+            formatter.dateFormat = "dd/MM/yy"
+            // Add Refresh Control to Table View
+            let calendar = Calendar.current
+            let loadDateFromPicker = formatter.date(from: loadDate)
+            dateFilter = calendar.component(.day, from: loadDateFromPicker!)
+            print ("do ovde si uspeo da doguras \(dateFilter)")
+            self.dayArray = self.podaci!.filter({return $0.day ==  dateFilter})
+            //return self.podaci?.count ?? 0 // ovo je koristan kod i kaze ako je podaci.count nije nil vrati .count ako jeste nil vrati 0
+        } else {
+             print ("nalazis se ovde STRING nije prazan")
+            formatter.dateFormat = "dd/MM/yy"
+            // Add Refresh Control to Table View
+            let calendar = Calendar.current
+            let loadDateFromPicker = formatter.date(from: returnDate)
+            dateFilter = calendar.component(.day, from: loadDateFromPicker!)
+            print ("do ovde si uspeo da doguras \(dateFilter)")
+            self.dayArray = self.podaci!.filter({return $0.day ==  dateFilter})
+            dateLabelOutlet.text = "\(returnDate)"
+        }
+     
+      return self.dayArray.count
     }
     
     
@@ -202,6 +220,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 }
                 DispatchQueue.main.async {
                     self.tableViewOutlet.reloadData()
+                    
                     }
                 }
                 catch let error {
@@ -342,10 +361,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "dd/MM/yy"
         let inputDate = dateFormater.string(from: datum)
-        print (inputDate)
+       // print (inputDate)
         dateLabelOutlet.text = "\(inputDate)"
     }
-    
     
     @IBAction func dateBtn(_ sender: Any) {
         datePickerViewOutlet.isHidden = false
@@ -375,13 +393,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = tableViewOutlet.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
         for subview in tableViewOutlet.subviews {
             if subview is UIVisualEffectView {
                 subview.removeFromSuperview()
             }
         }
-        
         UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = 0}
         tableViewOutlet.isScrollEnabled = true
         dateBtnOutlet.isHidden = false
@@ -391,11 +407,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         dateFormater.dateFormat = "dd/MM/yy"
         let inputDate = dateFormater.string(from: datePickerOutlet.date)
         dateLabelOutlet.text = "\(inputDate)"
-        loadDate = "\(inputDate)"
         let loadDateFromPicker = formatter.date(from: loadDate)
         dateFilter = calendar.component(.day, from: loadDateFromPicker!)
-        self.tableViewOutlet.reloadData()
         print("Sad si uspeo ovo da izaberese \(dateFilter)")
+        loadDate = "\(inputDate)"
+        returnDate = ""
+         self.tableViewOutlet.reloadData()
     }
     
     @IBAction func resetBtn(_ sender: Any) {

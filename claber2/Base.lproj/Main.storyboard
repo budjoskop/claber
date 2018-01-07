@@ -330,7 +330,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2209" y="-937"/>
+            <point key="canvasLocation" x="2203" y="-380"/>
         </scene>
         <!--Title-->
         <scene sceneID="y1l-fu-nxz">
@@ -422,7 +422,7 @@
                         <barButtonItem key="leftBarButtonItem" title="&lt;" id="xbZ-4f-pVS">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <segue destination="YuO-BI-yrD" kind="presentation" customClass="TransitionFromLeft" customModule="claber2" customModuleProvider="target" id="rjB-Vz-MzG"/>
+                                <segue destination="YuO-BI-yrD" kind="presentation" identifier="rewind" customClass="TransitionFromLeft" customModule="claber2" customModuleProvider="target" id="rjB-Vz-MzG"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

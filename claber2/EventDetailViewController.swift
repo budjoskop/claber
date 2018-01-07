@@ -51,9 +51,44 @@ class EventDetailViewController: UIViewController {
         self.opisOutlet.setContentOffset(.zero, animated: false)
     }
     
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//
+//        if segue.identifier == "masterSegvej" {
+//            let eventVC = segue.destination as! UINavigationController
+//            let svc = eventVC.topViewController as! EventDetailViewController
+//            svc.dogadjaj = dayArray[indexPath.row].event
+//            svc.mesto = dayArray[indexPath.row].place
+//            svc.opis = self.dayArray[indexPath.row].desc
+//            svc.date = self.dayArray[indexPath.row].date
+//            svc.slika = self.dayArray[indexPath.row].imageUrl
+//
+//        }
+//    }
+//
+    
+    func convertDateFormater(_ date: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let date = dateFormatter.date(from: date)
+        dateFormatter.dateFormat = "dd/MM/yy"
+        return  dateFormatter.string(from: date!)
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "rewind" {
+            let eventVC = segue.destination as! UINavigationController
+            let vc = eventVC.topViewController as! ViewController
+      
+           
+            vc.returnDate = convertDateFormater(date!)
+        }
+    }
+    
+    
+    
     func ubacivanjePodataka() {
-        
-        
         dogadjajOutlet.text = dogadjaj
         mestoOutlet.text = mesto
         opisOutlet.text = opis
