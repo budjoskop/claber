@@ -248,7 +248,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // AlertController
     
     func displayAlert () {
-        let alert = UIAlertController(title: "Pažnja", message: "Internet konekcija nije pronadjena", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Attention", message: "Internet connection is not found", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
         tableViewOutlet.isHidden = true
@@ -485,7 +485,7 @@ extension UIImageView {
             DispatchQueue.main.async {
                 var imageToCache = UIImage(data: data!)
                 if imageToCache == nil {
-                    let imageName = "claber.png"
+                    let imageName = "claber-1.png"
                     imageToCache = UIImage(named: imageName)
                     imageCache.setObject(imageToCache!, forKey: url as AnyObject)
                     self.image = imageToCache
