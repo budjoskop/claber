@@ -160,6 +160,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 cell.eventOutlet.textColor = UIColor(white: 1, alpha: 1)
                 cell.placeOutlet.textColor = UIColor(white: 1, alpha: 1)
                 cell.descOutlet.textColor = UIColor(white: 1, alpha: 1)
+                cell.addressOutlet.textColor = UIColor(white: 1, alpha: 1)
+                cell.timeOutlet.textColor = UIColor(white: 1, alpha: 1)
             }
         return cell
     } 
