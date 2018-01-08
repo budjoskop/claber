@@ -21,7 +21,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let formatter = DateFormatter()
     var loadDate = String()
     var dateFilter = Int()
+    var monthFilter = Int()
     var returnDate = ""
+    var returnMonth = ""
     let imageView = UIImageView()
     
     lazy var refreshControl: UIRefreshControl = {
@@ -94,15 +96,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if returnDate == "" {
+        if returnDate == "" && returnMonth == "" {
             print ("nalazis se ovde returnDate string je prazan")
             formatter.dateFormat = "dd/MM/yy"
             // Add Refresh Control to Table View
             let calendar = Calendar.current
             let loadDateFromPicker = formatter.date(from: loadDate)
             dateFilter = calendar.component(.day, from: loadDateFromPicker!)
+            monthFilter = calendar.component(.month, from: loadDateFromPicker!)
             print ("do ovde si uspeo da doguras \(dateFilter)")
-            self.dayArray = self.podaci!.filter({return $0.day ==  dateFilter})
+            self.dayArray = self.podaci!.filter({return $0.month == monthFilter && $0.day == dateFilter})
             //return self.podaci?.count ?? 0 // ovo je koristan kod i kaze ako je podaci.count nije nil vrati .count ako jeste nil vrati 0
         } else {
              print ("nalazis se ovde returnDate STRING nije prazan")
@@ -111,12 +114,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             let calendar = Calendar.current
             let loadDateFromPicker = formatter.date(from: returnDate)
             dateFilter = calendar.component(.day, from: loadDateFromPicker!)
+            monthFilter = calendar.component(.month, from: loadDateFromPicker!)
             print ("do ovde si uspeo da doguras \(dateFilter)")
-            self.dayArray = self.podaci!.filter({return $0.day ==  dateFilter})
+            self.dayArray = self.podaci!.filter({return $0.month == monthFilter && $0.day == dateFilter })
             dateLabelOutlet.text = "\(returnDate)"
         }
         
-        if dayArray.count == 0 {
+        if dayArray.count == 0  {
             self.warningOutlet.isHidden = false
             self.tableViewOutlet.isHidden = true
         
@@ -436,6 +440,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         print("Sad si uspeo ovo da izaberese \(dateFilter)")
         loadDate = "\(inputDate)"
         returnDate = ""
+        returnMonth = ""
          self.tableViewOutlet.reloadData()
     }
     
