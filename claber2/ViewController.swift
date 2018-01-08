@@ -80,6 +80,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
    
     
 
+/////////////////////// Funkcije za PUll - reload ///////////////////////
     
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         // Do some reloading of data and update the table view's data source
@@ -318,16 +319,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     
-    // Funkcije za SEARCH
+/////////////////////// Funkcije za SEARCH //////////////////////////
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBarOutlet.endEditing(true)
         searchBarOutlet.resignFirstResponder()
         searchBarOutlet.showsCancelButton = false
     }
-    
-   
-    
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
          searchBarOutlet.showsCancelButton = true
@@ -339,8 +337,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         searchFunkcija()
         print ("ovde si usao")
     }
-    
-    
     
     func searchFunkcija () {
         
@@ -366,14 +362,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.tableViewOutlet.reloadData()
         }
     }
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchFunkcija()
     }
+/////////////////////// kraj Funkcije za SEARCH //////////////////////////
     
     
-    //Funkcije DatePicker-a
-    
+/////////////////////// Funkcije DatePicker-a ///////////////////////
     
     func date(){
         let date = Date()
@@ -441,7 +436,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         loadDate = "\(inputDate)"
         returnDate = ""
         returnMonth = ""
-         self.tableViewOutlet.reloadData()
+        self.tableViewOutlet.reloadData()
     }
     
     @IBAction func resetBtn(_ sender: Any) {
@@ -460,7 +455,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         resetBtnOutlet.isHidden = false
         
     }
-    
+/////////////////////// kraj Funkcije DatePicker-a ///////////////////////
     
 
     
