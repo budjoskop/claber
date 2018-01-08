@@ -22,6 +22,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var loadDate = String()
     var dateFilter = Int()
     var returnDate = ""
+    let imageView = UIImageView()
     
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -55,7 +56,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        tableViewOutlet.contentInset = UIEdgeInsets(top: 94, left: 0, bottom: 64, right: 0)
+        tableViewOutlet.contentInset = UIEdgeInsets(top: 104, left: 0, bottom: 64, right: 0)
         dateInfoViewOutlet.layer.borderWidth = 0.4
         dateInfoViewOutlet.layer.borderColor = UIColor.black.cgColor
         tableViewOutlet.layer.borderWidth = 0.4
@@ -147,21 +148,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 cell.descOutlet.text =  self.dayArray[indexPath.row].desc
                 cell.addressOutlet.text =  self.dayArray[indexPath.row].address
                 cell.imageOutlet.downloadImage(from: (self.dayArray[indexPath.row].clubUrl)!) //ovo levo ima veze sa ektenzijom za UIImageView
+            
                 //cell.backgroundView?.contentMode = .scaleToFill
                 func getRandomColor() -> UIColor{
                     //Generate between 0 to 1
                     let red:CGFloat = CGFloat(drand48())
                     let green:CGFloat = CGFloat(drand48())
                     let blue:CGFloat = CGFloat(drand48())
-                    return UIColor(red:red, green: green, blue: blue, alpha: 1.0)
+                    return UIColor(red:red, green: green, blue: blue, alpha: 0.3)
                     }
                 let randColor =  getRandomColor()
                 cell.cellEfectOutlet.backgroundColor = randColor
+                cell.effectBackground.downloadImage(from: (self.dayArray[indexPath.row].imageUrl)!)
                 cell.eventOutlet.textColor = UIColor(white: 1, alpha: 1)
                 cell.placeOutlet.textColor = UIColor(white: 1, alpha: 1)
                 cell.descOutlet.textColor = UIColor(white: 1, alpha: 1)
                 cell.addressOutlet.textColor = UIColor(white: 1, alpha: 1)
                 cell.timeOutlet.textColor = UIColor(white: 1, alpha: 1)
+            
             }
         return cell
     } 

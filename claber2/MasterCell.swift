@@ -21,6 +21,8 @@ class MasterCell: UITableViewCell {
     @IBOutlet weak var cellEfectOutlet: UIVisualEffectView!
     @IBOutlet weak var addressOutlet: UILabel!
     @IBOutlet weak var timeOutlet: UILabel!
+    @IBOutlet weak var effectBackground: UIImageView!
+    
     
     var dateEvent:String?
     var checkDate:Date?
