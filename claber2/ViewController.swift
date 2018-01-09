@@ -25,7 +25,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var returnDate = ""
     var returnMonth = ""
     let imageView = UIImageView()
-    
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
@@ -35,7 +34,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     
-    //OUTLETI
+/////////////////////// OUTLETS ///////////////////////
     
     @IBOutlet weak var tableViewOutlet: UITableView!
     @IBOutlet weak var warningOutlet: UILabel!
@@ -48,13 +47,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var doneBtnOutlet: UIButton!
     @IBOutlet weak var dateInfoViewOutlet: UIView!
     @IBOutlet weak var infoDateOutlet: UILabel!
-    
-    
-    
-    
-    
-    
 
+    
+/////////////////////// DIDLOAD ///////////////////////
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -77,9 +73,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.tableViewOutlet.addSubview(self.refreshControl)
     }
     
-   
-    
-
 /////////////////////// Funkcije za PUll - reload ///////////////////////
     
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
@@ -90,10 +83,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     
-    //Obavezni metodi za TABELU
-    
-
-    
+/////////////////////// Obavezni metodi za TableView ///////////////////////
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -128,15 +118,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         } else {
             self.warningOutlet.isHidden = true
             self.tableViewOutlet.isHidden = false
-           
-          
         }
         
       return self.dayArray.count
     }
-    
-    
-    
     
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -181,6 +166,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         searchBarOutlet.showsCancelButton = false
     }
     
+/////////////////////// SEQUE ///////////////////////
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
         if segue.identifier == "masterSegvej" {
@@ -198,7 +184,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
 
     
-    //Func to catch JSON feed
+/////////////////////// Func to catch JSON feed ///////////////////////
     
     func fetchPodake (){
         let urlRequets = URLRequest(url: URL(string: "https://raw.githubusercontent.com/dperkosan/cluber/master/events2.json")!)
@@ -269,7 +255,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         task.resume()
     }
     
-    // AlertController
+/////////////////////// ALERT CONTROLLER ///////////////////////
     
     func displayAlert () {
         let alert = UIAlertController(title: "Attention", message: "Internet connection is not found", preferredStyle: UIAlertControllerStyle.alert)
@@ -278,7 +264,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableViewOutlet.isHidden = true
     }
 
-    // Funkcija za proveru Dostupnosti internet konekcije
+/////////////////////// INTERNET CONNECTION CHECK ///////////////////////
     
     func proveriNet () {
         proveraNeta.whenReachable = { _ in
@@ -300,7 +286,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     
-    // funkcija promeneStanja internet konekcije u realnom vremenu
+/////////////////////// INTERNET CONNECTION CHECK in realtime ///////////////////////
     
     @objc func internetChanged (note: Notification) {
         
@@ -378,7 +364,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchFunkcija()
     }
-/////////////////////// kraj Funkcije za SEARCH //////////////////////////
     
     
 /////////////////////// Funkcije DatePicker-a ///////////////////////
@@ -470,20 +455,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 /////////////////////// kraj Funkcije DatePicker-a ///////////////////////
     
-
-    
-    
-    
-    
-    
-/////////////// KRAJ KLASE UIVIEW KONTROLER
-}
+} /////////////// KRAJ KLASE UIVIEW KONTROLER
 
 
 
 
 
-// Extenzija da se parsuje url u UIImageView
+/////////////////////// Ekstenzija da se URL parsuje u UIImageView///////////////////////
 
 let imageCache = NSCache<AnyObject, AnyObject>()
 
@@ -518,14 +496,4 @@ extension UIImageView {
         task.resume()
     }
 }
-
-
-
-
-
-
-
-
-
-
 
