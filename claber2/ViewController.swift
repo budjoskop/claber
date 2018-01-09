@@ -18,6 +18,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let proveraNeta = Dostupnost()!
     var hasSearched = false
     var datum = Date()
+    var dateCheck = Date()
     let formatter = DateFormatter()
     var loadDate = String()
     var dateFilter = Int()
@@ -235,9 +236,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                                 dateFormatter.dateFormat = "HH:mm"
                                 return  dateFormatter.string(from: time!)
                             }
-                            
                             data.timeOfEvent = convertTimeFormater(data.date!)
-                         
                         }
                         self.podaci?.append(data)
                         self.filterArray = self.podaci!
@@ -245,7 +244,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 }
                 DispatchQueue.main.async {
                     self.tableViewOutlet.reloadData()
-                    
                     }
                 }
                 catch let error {
@@ -289,7 +287,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 /////////////////////// INTERNET CONNECTION CHECK in realtime ///////////////////////
     
     @objc func internetChanged (note: Notification) {
-        
         let reachability = note.object as! Dostupnost
         if reachability.isReachable {
             if reachability.isReachableViaWiFi{
@@ -338,7 +335,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func searchFunkcija () {
-        
         if searchBarOutlet.text == nil || searchBarOutlet.text == ""{
             hasSearched = false
             searchBarOutlet.showsCancelButton = true
@@ -395,14 +391,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         blurEffectView.frame = tableViewOutlet.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableViewOutlet.addSubview(blurEffectView)
-        
         UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = 200}
         tableViewOutlet.isScrollEnabled = false
         tableViewOutlet.allowsSelection = false
         infoDateOutlet.isHidden = false
         dateBtnOutlet.isHidden = true
         searchBarOutlet.isUserInteractionEnabled = false
-       
     }
     
     @IBAction func doneBtn(_ sender: Any) {
@@ -446,13 +440,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         dateLabelOutlet.text = "\(inputDate)"
         datePickerOutlet.date = Date()
         resetBtnOutlet.isHidden = true
-        
     }
  
     @IBAction func datePickerBtn(_ sender: Any) {
         resetBtnOutlet.isHidden = false
-        
     }
+    
+    
 /////////////////////// kraj Funkcije DatePicker-a ///////////////////////
     
 } /////////////// KRAJ KLASE UIVIEW KONTROLER
