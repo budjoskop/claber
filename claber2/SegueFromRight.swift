@@ -17,9 +17,9 @@ class TransitionFromRight: UIStoryboardSegue {
         let dst = self.destination
         let transition: CATransition = CATransition()
         let timeFunc : CAMediaTimingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
-        transition.duration = 0.35
+        transition.duration = 0.45
         transition.timingFunction = timeFunc
-        transition.type = kCATransitionMoveIn
+        transition.type = kCATransitionReveal
         transition.subtype = kCATransitionFromRight 
         
         src.view.window?.layer.add(transition, forKey: nil)

@@ -33,6 +33,7 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var opisOutlet: UITextView!
     @IBOutlet weak var titleOutlet: UINavigationItem!
     @IBOutlet weak var containerOutlet: UIView!
+    @IBOutlet weak var timeOutlet: UILabel!
     
     
     
@@ -75,13 +76,20 @@ class EventDetailViewController: UIViewController {
         return  dateFormatter.string(from: date!)
     }
     
+    func convertTimeFormater(_ time: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let time = dateFormatter.date(from: self.date!)
+        dateFormatter.dateFormat = "HH:mm"
+        return  dateFormatter.string(from: time!)
+    }
+    
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "rewind" {
             let eventVC = segue.destination as! UINavigationController
             let vc = eventVC.topViewController as! ViewController
-      
-           
             vc.returnDate = convertDateFormater(date!)
         }
     }
@@ -93,7 +101,8 @@ class EventDetailViewController: UIViewController {
         mestoOutlet.text = mesto
         opisOutlet.text = opis
         eventImageOutlet.downloadImage(from: slika!)
-        dateOutlet.text = "Date: \(date!)"
+        dateOutlet.text = "Date: \(convertDateFormater(date!))"
+        timeOutlet.text = "Event starts: \(convertTimeFormater(date!))"
     }
 
 }

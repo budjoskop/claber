@@ -29,7 +29,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
-        refreshControl.tintColor = UIColor.red
+        refreshControl.tintColor = UIColor.black
         return refreshControl
     }()
     
@@ -153,7 +153,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 cell.descOutlet.text =  self.dayArray[indexPath.row].desc
                 cell.addressOutlet.text =  self.dayArray[indexPath.row].address
                 cell.imageOutlet.downloadImage(from: (self.dayArray[indexPath.row].clubUrl)!) //ovo levo ima veze sa ektenzijom za UIImageView
-            
+                cell.timeOutlet.text  = self.dayArray[indexPath.row].timeOfEvent
                 //cell.backgroundView?.contentMode = .scaleToFill
                 func getRandomColor() -> UIColor{
                     //Generate between 0 to 1
@@ -196,6 +196,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+
+    
     //Func to catch JSON feed
     
     func fetchPodake (){
@@ -217,7 +219,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
                 if let podaciIzJsona = json["events"] as? [[String: AnyObject]] {
                     for podatakJson in podaciIzJsona {
-                        
+                    
                         let data = Podaci()
                         
                         if let title = podatakJson["EventName"] as? String,
@@ -239,6 +241,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                             let calendar = Calendar.current
                             data.day = calendar.component(.day, from: data.checkDate!)
                             data.month = calendar.component(.month, from: data.checkDate!)
+                            
+                            func convertTimeFormater(_ time: String) -> String {
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                                let time = dateFormatter.date(from: data.date!)
+                                dateFormatter.dateFormat = "HH:mm"
+                                return  dateFormatter.string(from: time!)
+                            }
+                            
+                            data.timeOfEvent = convertTimeFormater(data.date!)
+                         
                         }
                         self.podaci?.append(data)
                         self.filterArray = self.podaci!
