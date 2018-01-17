@@ -15,6 +15,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var podaci:[Podaci]? = []
     var filterArray:[Podaci] = []
     var dayArray:[Podaci] = []
+    var dayArrayUnfiltered:[Podaci] = []
     let proveraNeta = Dostupnost()!
     var hasSearched = false
     var datum = Date()
@@ -74,6 +75,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.tableViewOutlet.addSubview(self.refreshControl)
     }
     
+    
+    
+    
 /////////////////////// Funkcije za PUll - reload ///////////////////////
     
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
@@ -111,16 +115,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.dayArray = self.podaci!.filter({return $0.month == monthFilter && $0.day == dateFilter })
             dateLabelOutlet.text = "\(returnDate)"
         }
-        
+    
         if dayArray.count == 0  {
             self.warningOutlet.isHidden = false
             self.tableViewOutlet.isHidden = true
         
         } else {
+            
             self.warningOutlet.isHidden = true
             self.tableViewOutlet.isHidden = false
         }
-        
       return self.dayArray.count
     }
     
@@ -158,8 +162,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 cell.timeOutlet.textColor = UIColor(white: 1, alpha: 1)
             
             }
+        cell.contentView.alpha = 0
         return cell
     } 
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        UIView.animate(withDuration: 0.8, animations: {
+            cell.contentView.alpha = 1.0
+        })
+    }
+    
+  
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         searchBarOutlet.resignFirstResponder()
@@ -170,7 +183,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 /////////////////////// SEQUE ///////////////////////
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
+    
         if segue.identifier == "masterSegvej" {
+            
             let eventVC = segue.destination as! UINavigationController
             let svc = eventVC.topViewController as! EventDetailViewController
             let indexPath = self.tableViewOutlet.indexPathForSelectedRow!
@@ -179,10 +194,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             svc.opis = self.dayArray[indexPath.row].desc
             svc.date = self.dayArray[indexPath.row].date
             svc.slika = self.dayArray[indexPath.row].imageUrl
-           
         }
     }
     
+    
+    func tableAnimation () {
+        UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = 200}
+        UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = 0}
+    }
 
     
 /////////////////////// Func to catch JSON feed ///////////////////////
@@ -316,41 +335,62 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
 /////////////////////// Funkcije za SEARCH //////////////////////////
+    
+    func resetArray () {
+        if dayArrayUnfiltered.count == 0  {
+            dayArrayUnfiltered = self.podaci!.filter({return $0.month == monthFilter && $0.day == dateFilter})
+            print ("Sada ovaj niz ima \(dayArrayUnfiltered.count)")
+        }
+    }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        podaci! = filterArray
         searchBarOutlet.endEditing(true)
         searchBarOutlet.resignFirstResponder()
         searchBarOutlet.showsCancelButton = false
+        print ("ovde si usao")
     }
+    
+
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
          searchBarOutlet.showsCancelButton = true
+         podaci! = filterArray
+        print ("ovde si usao")
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBarOutlet.showsCancelButton = true
-        podaci = filterArray
+        podaci! = filterArray
         searchFunkcija()
         print ("ovde si usao")
     }
     
     func searchFunkcija () {
         if searchBarOutlet.text == nil || searchBarOutlet.text == ""{
+            warningOutlet.text = "No events today"
             hasSearched = false
             searchBarOutlet.showsCancelButton = true
-            podaci = filterArray
+            podaci! = filterArray
             view.endEditing(true)
             self.tableViewOutlet.reloadData()
         }
         else {
+            resetArray()
+            dayArray = dayArrayUnfiltered
             hasSearched = true
             searchBarOutlet.showsCancelButton = true
-            podaci = dayArray
-            podaci = podaci?.filter({ (pod) -> Bool in
+            print ("ovoliko ima pre filtera \(dayArrayUnfiltered.count)")
+            podaci! = dayArray.filter({ (pod) -> Bool in
                 if (pod.event?.lowercased().contains((searchBarOutlet.text?.lowercased())!))! || (pod.place?.lowercased().contains((searchBarOutlet.text?.lowercased())!))! || (pod.desc?.lowercased().contains((searchBarOutlet.text?.lowercased())!))! {
+                   
+                    print ("ovoliko ima posle filtera \(dayArrayUnfiltered.count)")
                     return true
                 }
                 else {
+                   
+                    warningOutlet.text = "Nothing found"
+                    print ("vraca false")
                     return false
                 }
             })
@@ -397,6 +437,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         infoDateOutlet.isHidden = false
         dateBtnOutlet.isHidden = true
         searchBarOutlet.isUserInteractionEnabled = false
+        dayArrayUnfiltered = []
     }
     
     @IBAction func doneBtn(_ sender: Any) {
@@ -428,6 +469,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         loadDate = "\(inputDate)"
         returnDate = ""
         returnMonth = ""
+        dayArrayUnfiltered = []
         self.tableViewOutlet.reloadData()
     }
     
@@ -440,6 +482,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         dateLabelOutlet.text = "\(inputDate)"
         datePickerOutlet.date = Date()
         resetBtnOutlet.isHidden = true
+        dayArrayUnfiltered = []
     }
  
     @IBAction func datePickerBtn(_ sender: Any) {

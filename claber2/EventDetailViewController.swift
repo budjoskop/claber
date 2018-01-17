@@ -35,17 +35,32 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var containerOutlet: UIView!
     @IBOutlet weak var timeOutlet: UILabel!
     
-    
-    
-    
+    override func viewDidAppear(_ animated: Bool) {
+        UIView.animate(withDuration: 0.8, animations: {
+            self.eventImageOutlet.alpha = 1
+            self.visualOutlet.alpha = 1
+            self.dateOutlet.alpha = 1
+            self.dogadjajOutlet.alpha = 1
+            self.mestoOutlet.alpha = 1
+            self.opisOutlet.alpha = 1
+            self.containerOutlet.alpha = 1
+            self.timeOutlet.alpha = 1
+        })
+    }
+ 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
         ubacivanjePodataka()
-       
-        
+            self.eventImageOutlet.alpha = 0
+            self.visualOutlet.alpha = 0
+            self.dateOutlet.alpha = 0
+            self.dogadjajOutlet.alpha = 0
+            self.mestoOutlet.alpha = 0
+            self.opisOutlet.alpha = 0
+            self.containerOutlet.alpha = 0
+            self.timeOutlet.alpha = 0
     }
     
     override func viewDidLayoutSubviews() {
