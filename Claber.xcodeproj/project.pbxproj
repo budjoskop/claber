@@ -45,7 +45,7 @@
 		95B914931EF1D354004E0303 /* SegueFromLeft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueFromLeft.swift; sourceTree = "<group>"; };
 		95F37CB61EEB359E00F46F38 /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		95F37CBA1EEC6F7700F46F38 /* Dostupnost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Dostupnost.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		95F555AC1EE8821700B31104 /* claber2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = claber2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		95F555AC1EE8821700B31104 /* claber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = claber.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F555AF1EE8821700B31104 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95F555B11EE8821700B31104 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		95F555B41EE8821700B31104 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -53,10 +53,10 @@
 		95F555B91EE8821700B31104 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		95F555BC1EE8821700B31104 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		95F555BE1EE8821700B31104 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		95F555C31EE8821700B31104 /* claber2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = claber2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		95F555C31EE8821700B31104 /* claberTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = claberTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F555C71EE8821700B31104 /* claber2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = claber2Tests.swift; sourceTree = "<group>"; };
 		95F555C91EE8821700B31104 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		95F555CE1EE8821700B31104 /* claber2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = claber2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		95F555CE1EE8821700B31104 /* claberUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = claberUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F555D21EE8821700B31104 /* claber2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = claber2UITests.swift; sourceTree = "<group>"; };
 		95F555D41EE8821700B31104 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95F555E01EE9C81900B31104 /* MasterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterCell.swift; sourceTree = "<group>"; };
@@ -128,9 +128,9 @@
 		95F555AD1EE8821700B31104 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				95F555AC1EE8821700B31104 /* claber2.app */,
-				95F555C31EE8821700B31104 /* claber2Tests.xctest */,
-				95F555CE1EE8821700B31104 /* claber2UITests.xctest */,
+				95F555AC1EE8821700B31104 /* claber.app */,
+				95F555C31EE8821700B31104 /* claberTests.xctest */,
+				95F555CE1EE8821700B31104 /* claberUITests.xctest */,
 			);
 			name = Products;
 			path = ..;
@@ -174,9 +174,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		95F555AB1EE8821700B31104 /* claber2 */ = {
+		95F555AB1EE8821700B31104 /* claber */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 95F555D71EE8821700B31104 /* Build configuration list for PBXNativeTarget "claber2" */;
+			buildConfigurationList = 95F555D71EE8821700B31104 /* Build configuration list for PBXNativeTarget "claber" */;
 			buildPhases = (
 				95F555A81EE8821700B31104 /* Sources */,
 				95F555A91EE8821700B31104 /* Frameworks */,
@@ -186,14 +186,14 @@
 			);
 			dependencies = (
 			);
-			name = claber2;
+			name = claber;
 			productName = claber2;
-			productReference = 95F555AC1EE8821700B31104 /* claber2.app */;
+			productReference = 95F555AC1EE8821700B31104 /* claber.app */;
 			productType = "com.apple.product-type.application";
 		};
-		95F555C21EE8821700B31104 /* claber2Tests */ = {
+		95F555C21EE8821700B31104 /* claberTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 95F555DA1EE8821700B31104 /* Build configuration list for PBXNativeTarget "claber2Tests" */;
+			buildConfigurationList = 95F555DA1EE8821700B31104 /* Build configuration list for PBXNativeTarget "claberTests" */;
 			buildPhases = (
 				95F555BF1EE8821700B31104 /* Sources */,
 				95F555C01EE8821700B31104 /* Frameworks */,
@@ -204,14 +204,14 @@
 			dependencies = (
 				95F555C51EE8821700B31104 /* PBXTargetDependency */,
 			);
-			name = claber2Tests;
+			name = claberTests;
 			productName = claber2Tests;
-			productReference = 95F555C31EE8821700B31104 /* claber2Tests.xctest */;
+			productReference = 95F555C31EE8821700B31104 /* claberTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		95F555CD1EE8821700B31104 /* claber2UITests */ = {
+		95F555CD1EE8821700B31104 /* claberUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 95F555DD1EE8821700B31104 /* Build configuration list for PBXNativeTarget "claber2UITests" */;
+			buildConfigurationList = 95F555DD1EE8821700B31104 /* Build configuration list for PBXNativeTarget "claberUITests" */;
 			buildPhases = (
 				95F555CA1EE8821700B31104 /* Sources */,
 				95F555CB1EE8821700B31104 /* Frameworks */,
@@ -222,9 +222,9 @@
 			dependencies = (
 				95F555D01EE8821700B31104 /* PBXTargetDependency */,
 			);
-			name = claber2UITests;
+			name = claberUITests;
 			productName = claber2UITests;
-			productReference = 95F555CE1EE8821700B31104 /* claber2UITests.xctest */;
+			productReference = 95F555CE1EE8821700B31104 /* claberUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -259,7 +259,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 95F555A71EE8821700B31104 /* Build configuration list for PBXProject "claber2" */;
+			buildConfigurationList = 95F555A71EE8821700B31104 /* Build configuration list for PBXProject "Claber" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -272,9 +272,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				95F555AB1EE8821700B31104 /* claber2 */,
-				95F555C21EE8821700B31104 /* claber2Tests */,
-				95F555CD1EE8821700B31104 /* claber2UITests */,
+				95F555AB1EE8821700B31104 /* claber */,
+				95F555C21EE8821700B31104 /* claberTests */,
+				95F555CD1EE8821700B31104 /* claberUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -344,12 +344,12 @@
 /* Begin PBXTargetDependency section */
 		95F555C51EE8821700B31104 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 95F555AB1EE8821700B31104 /* claber2 */;
+			target = 95F555AB1EE8821700B31104 /* claber */;
 			targetProxy = 95F555C41EE8821700B31104 /* PBXContainerItemProxy */;
 		};
 		95F555D01EE8821700B31104 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 95F555AB1EE8821700B31104 /* claber2 */;
+			target = 95F555AB1EE8821700B31104 /* claber */;
 			targetProxy = 95F555CF1EE8821700B31104 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -487,11 +487,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = W5X27WM5D4;
 				INFOPLIST_FILE = claber2/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ognjen.claber2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -502,11 +502,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = W5X27WM5D4;
 				INFOPLIST_FILE = claber2/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ognjen.claber2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
@@ -521,9 +521,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ognjen.claber2Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/claber2.app/claber2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Claber.app/Claber";
 			};
 			name = Debug;
 		};
@@ -537,9 +537,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ognjen.claber2Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/claber2.app/claber2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Claber.app/Claber";
 			};
 			name = Release;
 		};
@@ -552,7 +552,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ognjen.claber2UITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = claber2;
 			};
@@ -567,7 +567,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ognjen.claber2UITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = claber2;
 			};
@@ -576,7 +576,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		95F555A71EE8821700B31104 /* Build configuration list for PBXProject "claber2" */ = {
+		95F555A71EE8821700B31104 /* Build configuration list for PBXProject "Claber" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95F555D51EE8821700B31104 /* Debug */,
@@ -585,7 +585,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		95F555D71EE8821700B31104 /* Build configuration list for PBXNativeTarget "claber2" */ = {
+		95F555D71EE8821700B31104 /* Build configuration list for PBXNativeTarget "claber" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95F555D81EE8821700B31104 /* Debug */,
@@ -594,7 +594,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		95F555DA1EE8821700B31104 /* Build configuration list for PBXNativeTarget "claber2Tests" */ = {
+		95F555DA1EE8821700B31104 /* Build configuration list for PBXNativeTarget "claberTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95F555DB1EE8821700B31104 /* Debug */,
@@ -603,7 +603,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		95F555DD1EE8821700B31104 /* Build configuration list for PBXNativeTarget "claber2UITests" */ = {
+		95F555DD1EE8821700B31104 /* Build configuration list for PBXNativeTarget "claberUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95F555DE1EE8821700B31104 /* Debug */,

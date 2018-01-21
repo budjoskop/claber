@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  claber2
+//  claber
 //
 //  Created by Ognjen Tomić on 6/7/17.
 //  Copyright © 2017 Ognjen Tomić. All rights reserved.
@@ -30,7 +30,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
-        refreshControl.tintColor = UIColor.black
+        refreshControl.tintColor = UIColor.white
         return refreshControl
     }()
     
@@ -56,7 +56,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        tableViewOutlet.contentInset = UIEdgeInsets(top: 104, left: 0, bottom: 64, right: 0)
+        tableViewOutlet.contentInset = UIEdgeInsets(top: 54, left: 0, bottom: 64, right: 0)
         dateInfoViewOutlet.layer.borderWidth = 0.4
         dateInfoViewOutlet.layer.borderColor = UIColor.black.cgColor
         tableViewOutlet.layer.borderWidth = 0.4
@@ -68,6 +68,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         doneBtnOutlet.layer.cornerRadius = 12
         resetBtnOutlet.layer.cornerRadius = 12
         dateFormatFunkcija()
+        tableViewOutlet.backgroundColor = UIColor.black
         proveriNet()
         date()
         loadDate = dateLabelOutlet.text!
@@ -83,6 +84,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         // Do some reloading of data and update the table view's data source
         // Fetch more objects from a web service, for example...
+        fetchPodake()
         self.tableViewOutlet.reloadData()
         refreshControl.endRefreshing()
     }
@@ -144,33 +146,43 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 cell.addressOutlet.text =  self.dayArray[indexPath.row].address
                 cell.imageOutlet.downloadImage(from: (self.dayArray[indexPath.row].clubUrl)!) //ovo levo ima veze sa ektenzijom za UIImageView
                 cell.timeOutlet.text  = self.dayArray[indexPath.row].timeOfEvent
-                //cell.backgroundView?.contentMode = .scaleToFill
-                func getRandomColor() -> UIColor{
-                    //Generate between 0 to 1
-                    let red:CGFloat = CGFloat(drand48())
-                    let green:CGFloat = CGFloat(drand48())
-                    let blue:CGFloat = CGFloat(drand48())
-                    return UIColor(red:red, green: green, blue: blue, alpha: 0.3)
-                    }
-                let randColor =  getRandomColor()
-                cell.cellEfectOutlet.backgroundColor = randColor
-                cell.effectBackground.downloadImage(from: (self.dayArray[indexPath.row].imageUrl)!)
-                cell.eventOutlet.textColor = UIColor(white: 1, alpha: 1)
-                cell.placeOutlet.textColor = UIColor(white: 1, alpha: 1)
-                cell.descOutlet.textColor = UIColor(white: 1, alpha: 1)
-                cell.addressOutlet.textColor = UIColor(white: 1, alpha: 1)
-                cell.timeOutlet.textColor = UIColor(white: 1, alpha: 1)
+//              cell.backgroundView?.contentMode = .scaleToFill
+//                func getRandomColor() -> UIColor{
+//                    //Generate between 0 to 1
+//                    let red:CGFloat = CGFloat(drand48())
+//                    let green:CGFloat = CGFloat(drand48())
+//                    let blue:CGFloat = CGFloat(drand48())
+//                    return UIColor(red:red, green: green, blue: blue, alpha: 0.3)
+//                    }
+//                let randColor =  getRandomColor()
+//                cell.cellEfectOutlet.backgroundColor = randColor
+//                cell.effectBackground.downloadImage(from: (self.dayArray[indexPath.row].imageUrl)!)
+                cell.backgroundColor = UIColor.black
+                cell.eventOutlet.textColor = UIColor.white
+                cell.placeOutlet.textColor = UIColor.white
+                cell.descOutlet.textColor = UIColor.white
+                cell.addressOutlet.textColor = UIColor.white
+                cell.timeOutlet.textColor = UIColor.white
             
             }
-        cell.contentView.alpha = 0
+        cell.contentView.alpha = 1
         return cell
-    } 
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        UIView.animate(withDuration: 0.8, animations: {
-            cell.contentView.alpha = 1.0
-        })
     }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+/////////////////////// istraziti jos ovaj deo da ne koci aplikacija ///////////////////////
+
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        DispatchQueue.main.async {
+//            UIView.animate(withDuration: 0.3, animations: {
+//                cell.contentView.alpha = 1.0
+//            })
+//        }
+//    }
     
   
     
@@ -180,14 +192,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         searchBarOutlet.showsCancelButton = false
     }
     
+  
+    
+    
 /////////////////////// SEQUE ///////////////////////
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
     
         if segue.identifier == "masterSegvej" {
-            
-            let eventVC = segue.destination as! UINavigationController
-            let svc = eventVC.topViewController as! EventDetailViewController
+            let backItem = UIBarButtonItem()
+            backItem.title = "Back"
+            navigationItem.backBarButtonItem = backItem
+            let svc = segue.destination as! EventDetailViewController
             let indexPath = self.tableViewOutlet.indexPathForSelectedRow!
             svc.dogadjaj = dayArray[indexPath.row].event
             svc.mesto = dayArray[indexPath.row].place
@@ -207,7 +223,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 /////////////////////// Func to catch JSON feed ///////////////////////
     
     func fetchPodake (){
-        let urlRequets = URLRequest(url: URL(string: "https://raw.githubusercontent.com/dperkosan/cluber/master/events2.json")!)
+        let urlRequets = URLRequest(url: URL(string: "http://138.201.1.10/api/v1/events")!)
         let task = URLSession.shared.dataTask(with: urlRequets) { (data, response, error) in
             
             if error != nil {
@@ -431,12 +447,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         blurEffectView.frame = tableViewOutlet.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableViewOutlet.addSubview(blurEffectView)
-        UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = 200}
         tableViewOutlet.isScrollEnabled = false
         tableViewOutlet.allowsSelection = false
         infoDateOutlet.isHidden = false
         dateBtnOutlet.isHidden = true
         searchBarOutlet.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = -100}
+        
         dayArrayUnfiltered = []
     }
     
@@ -519,7 +536,7 @@ extension UIImageView {
             DispatchQueue.main.async {
                 var imageToCache = UIImage(data: data!)
                 if imageToCache == nil {
-                    let imageName = "claber-1.png"
+                    let imageName = "Klaber.png"
                     imageToCache = UIImage(named: imageName)
                     imageCache.setObject(imageToCache!, forKey: url as AnyObject)
                     self.image = imageToCache

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "95F555AB1EE8821700B31104"
-               BuildableName = "claber2.app"
-               BlueprintName = "claber2"
-               ReferencedContainer = "container:claber2.xcodeproj">
+               BuildableName = "claber.app"
+               BlueprintName = "claber"
+               ReferencedContainer = "container:Claber.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,9 +34,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "95F555C21EE8821700B31104"
-               BuildableName = "claber2Tests.xctest"
-               BlueprintName = "claber2Tests"
-               ReferencedContainer = "container:claber2.xcodeproj">
+               BuildableName = "claberTests.xctest"
+               BlueprintName = "claberTests"
+               ReferencedContainer = "container:Claber.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -44,9 +44,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "95F555CD1EE8821700B31104"
-               BuildableName = "claber2UITests.xctest"
-               BlueprintName = "claber2UITests"
-               ReferencedContainer = "container:claber2.xcodeproj">
+               BuildableName = "claberUITests.xctest"
+               BlueprintName = "claberUITests"
+               ReferencedContainer = "container:Claber.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -54,9 +54,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "95F555AB1EE8821700B31104"
-            BuildableName = "claber2.app"
-            BlueprintName = "claber2"
-            ReferencedContainer = "container:claber2.xcodeproj">
+            BuildableName = "claber.app"
+            BlueprintName = "claber"
+            ReferencedContainer = "container:Claber.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -78,9 +78,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "95F555AB1EE8821700B31104"
-            BuildableName = "claber2.app"
-            BlueprintName = "claber2"
-            ReferencedContainer = "container:claber2.xcodeproj">
+            BuildableName = "claber.app"
+            BlueprintName = "claber"
+            ReferencedContainer = "container:Claber.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -97,9 +97,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "95F555AB1EE8821700B31104"
-            BuildableName = "claber2.app"
-            BlueprintName = "claber2"
-            ReferencedContainer = "container:claber2.xcodeproj">
+            BuildableName = "claber.app"
+            BlueprintName = "claber"
+            ReferencedContainer = "container:Claber.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EventKit
 
 class EventDetailViewController: UIViewController {
     
@@ -20,6 +21,8 @@ class EventDetailViewController: UIViewController {
     var mesto: String?
     var opis:String?
     var date:String?
+    var dateAction: String?
+    
     
     
     
@@ -34,54 +37,24 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var titleOutlet: UINavigationItem!
     @IBOutlet weak var containerOutlet: UIView!
     @IBOutlet weak var timeOutlet: UILabel!
+    @IBOutlet weak var addEventBtnOutlet: UIButton!
     
-    override func viewDidAppear(_ animated: Bool) {
-        UIView.animate(withDuration: 0.8, animations: {
-            self.eventImageOutlet.alpha = 1
-            self.visualOutlet.alpha = 1
-            self.dateOutlet.alpha = 1
-            self.dogadjajOutlet.alpha = 1
-            self.mestoOutlet.alpha = 1
-            self.opisOutlet.alpha = 1
-            self.containerOutlet.alpha = 1
-            self.timeOutlet.alpha = 1
-        })
-    }
+    
  
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         ubacivanjePodataka()
-            self.eventImageOutlet.alpha = 0
-            self.visualOutlet.alpha = 0
-            self.dateOutlet.alpha = 0
-            self.dogadjajOutlet.alpha = 0
-            self.mestoOutlet.alpha = 0
-            self.opisOutlet.alpha = 0
-            self.containerOutlet.alpha = 0
-            self.timeOutlet.alpha = 0
+        addEventBtnOutlet.layer.cornerRadius = 12
+        title = mesto
+        self.navigationController?.navigationBar.tintColor = UIColor.black
     }
     
     override func viewDidLayoutSubviews() {
         self.opisOutlet.setContentOffset(.zero, animated: false)
     }
     
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//
-//        if segue.identifier == "masterSegvej" {
-//            let eventVC = segue.destination as! UINavigationController
-//            let svc = eventVC.topViewController as! EventDetailViewController
-//            svc.dogadjaj = dayArray[indexPath.row].event
-//            svc.mesto = dayArray[indexPath.row].place
-//            svc.opis = self.dayArray[indexPath.row].desc
-//            svc.date = self.dayArray[indexPath.row].date
-//            svc.slika = self.dayArray[indexPath.row].imageUrl
-//
-//        }
-//    }
-//
     
     func convertDateFormater(_ date: String) -> String {
         let dateFormatter = DateFormatter()
@@ -111,12 +84,56 @@ class EventDetailViewController: UIViewController {
     
     
     
+    @IBAction func addCalendarActionBtn(_ sender: Any) {
+        displayAlert()
+       
+    }
+
+    
+    
+    func displayAlert () {
+        let alert = UIAlertController(title: "Save event?", message: "Do you want to add this event to your calendar", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: { (action) -> Void in self.saveEvent()}))
+        alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
+    func saveEvent () {
+        dateAction  = date
+        let eventStore: EKEventStore = EKEventStore()
+        eventStore.requestAccess(to: .event) {(granted, error) in
+            if (granted) && (error == nil) {
+                print ("Granted \(granted)")
+                print ("Error \(String(describing: error))")
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                let dateCalendar = dateFormatter.date(from: self.dateAction!)
+                let event:EKEvent = EKEvent(eventStore: eventStore)
+                event.title = self.dogadjaj
+                event.startDate = dateCalendar
+                event.endDate = dateCalendar
+                event.notes = self.opis
+                event.calendar = eventStore.defaultCalendarForNewEvents
+                do {
+                    try eventStore.save(event, span: .thisEvent)
+                } catch let error as NSError{
+                    print("error: \(error)")
+                }
+                print ("Save Event")
+            } else {
+                print ("Error: \(String(describing: error))")
+            }
+        }
+    }
+    
+    
     func ubacivanjePodataka() {
         dogadjajOutlet.text = dogadjaj
         mestoOutlet.text = mesto
         opisOutlet.text = opis
         eventImageOutlet.downloadImage(from: slika!)
-        dateOutlet.text = "Date: \(convertDateFormater(date!))"
+        dateOutlet.text = "\(convertDateFormater(date!))"
         timeOutlet.text = "Event starts: \(convertTimeFormater(date!))"
     }
 
