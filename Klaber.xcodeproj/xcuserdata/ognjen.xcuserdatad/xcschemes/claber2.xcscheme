@@ -17,7 +17,7 @@
                BlueprintIdentifier = "95F555AB1EE8821700B31104"
                BuildableName = "claber.app"
                BlueprintName = "claber"
-               ReferencedContainer = "container:Claber.xcodeproj">
+               ReferencedContainer = "container:Klaber.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -36,7 +36,7 @@
                BlueprintIdentifier = "95F555C21EE8821700B31104"
                BuildableName = "claberTests.xctest"
                BlueprintName = "claberTests"
-               ReferencedContainer = "container:Claber.xcodeproj">
+               ReferencedContainer = "container:Klaber.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -46,7 +46,7 @@
                BlueprintIdentifier = "95F555CD1EE8821700B31104"
                BuildableName = "claberUITests.xctest"
                BlueprintName = "claberUITests"
-               ReferencedContainer = "container:Claber.xcodeproj">
+               ReferencedContainer = "container:Klaber.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -56,7 +56,7 @@
             BlueprintIdentifier = "95F555AB1EE8821700B31104"
             BuildableName = "claber.app"
             BlueprintName = "claber"
-            ReferencedContainer = "container:Claber.xcodeproj">
+            ReferencedContainer = "container:Klaber.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -80,7 +80,7 @@
             BlueprintIdentifier = "95F555AB1EE8821700B31104"
             BuildableName = "claber.app"
             BlueprintName = "claber"
-            ReferencedContainer = "container:Claber.xcodeproj">
+            ReferencedContainer = "container:Klaber.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -99,7 +99,7 @@
             BlueprintIdentifier = "95F555AB1EE8821700B31104"
             BuildableName = "claber.app"
             BlueprintName = "claber"
-            ReferencedContainer = "container:Claber.xcodeproj">
+            ReferencedContainer = "container:Klaber.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

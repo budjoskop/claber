@@ -210,8 +210,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             svc.opis = self.dayArray[indexPath.row].desc
             svc.date = self.dayArray[indexPath.row].date
             svc.slika = self.dayArray[indexPath.row].imageUrl
+        } else if segue.identifier == "contact" {
+                let backItem = UIBarButtonItem()
+                backItem.title = "Back"
+                navigationItem.backBarButtonItem = backItem
+            }
         }
-    }
+    
+
     
     
     func tableAnimation () {
@@ -227,6 +233,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let task = URLSession.shared.dataTask(with: urlRequets) { (data, response, error) in
             
             if error != nil {
+                self.whoops()
                 print(error as Any)
                 //DODATI KASNIJE ALERT ZA HVATANJE LOSEG JSON-a
                 return
@@ -296,6 +303,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.present(alert, animated: true, completion: nil)
         tableViewOutlet.isHidden = true
     }
+    
+    func whoops () {
+        let alert = UIAlertController(title: "Whoops", message: "Something went wrong, we will back soon", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        tableViewOutlet.isHidden = true
+    }
+    
+    
 
 /////////////////////// INTERNET CONNECTION CHECK ///////////////////////
     

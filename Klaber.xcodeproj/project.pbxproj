@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		244E711120151DFF007E7071 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244E711020151DFF007E7071 /* Contact.swift */; };
+		244E7113201522F0007E7071 /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = 244E7112201522F0007E7071 /* title.png */; };
 		951BDBF71EF7010D00EC0E39 /* SegueFromRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951BDBF61EF7010D00EC0E39 /* SegueFromRight.swift */; };
 		95B914941EF1D354004E0303 /* SegueFromLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B914931EF1D354004E0303 /* SegueFromLeft.swift */; };
 		95F37CB71EEB359E00F46F38 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F37CB61EEB359E00F46F38 /* EventDetailViewController.swift */; };
@@ -41,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		244E711020151DFF007E7071 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		244E7112201522F0007E7071 /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title.png; sourceTree = "<group>"; };
 		951BDBF61EF7010D00EC0E39 /* SegueFromRight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueFromRight.swift; sourceTree = "<group>"; };
 		95B914931EF1D354004E0303 /* SegueFromLeft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueFromLeft.swift; sourceTree = "<group>"; };
 		95F37CB61EEB359E00F46F38 /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +107,7 @@
 			children = (
 				95F555B11EE8821700B31104 /* ViewController.swift */,
 				95F37CB61EEB359E00F46F38 /* EventDetailViewController.swift */,
+				244E711020151DFF007E7071 /* Contact.swift */,
 			);
 			name = Kontroleri;
 			sourceTree = "<group>";
@@ -164,6 +169,7 @@
 		95F555D11EE8821700B31104 /* claber2UITests */ = {
 			isa = PBXGroup;
 			children = (
+				244E7112201522F0007E7071 /* title.png */,
 				95F555AD1EE8821700B31104 /* Products */,
 				95F555D21EE8821700B31104 /* claber2UITests.swift */,
 				95F555D41EE8821700B31104 /* Info.plist */,
@@ -259,7 +265,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 95F555A71EE8821700B31104 /* Build configuration list for PBXProject "Claber" */;
+			buildConfigurationList = 95F555A71EE8821700B31104 /* Build configuration list for PBXProject "Klaber" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -286,6 +292,7 @@
 			files = (
 				95F555BD1EE8821700B31104 /* LaunchScreen.storyboard in Resources */,
 				95F555BA1EE8821700B31104 /* Assets.xcassets in Resources */,
+				244E7113201522F0007E7071 /* title.png in Resources */,
 				95F555B51EE8821700B31104 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -313,6 +320,7 @@
 			files = (
 				95F37CBB1EEC6F7700F46F38 /* Dostupnost.swift in Sources */,
 				95F37CB71EEB359E00F46F38 /* EventDetailViewController.swift in Sources */,
+				244E711120151DFF007E7071 /* Contact.swift in Sources */,
 				95F555B81EE8821700B31104 /* claber2.xcdatamodeld in Sources */,
 				95F555E51EE9D31400B31104 /* Podaci.swift in Sources */,
 				95F555B21EE8821700B31104 /* ViewController.swift in Sources */,
@@ -576,7 +584,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		95F555A71EE8821700B31104 /* Build configuration list for PBXProject "Claber" */ = {
+		95F555A71EE8821700B31104 /* Build configuration list for PBXProject "Klaber" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95F555D51EE8821700B31104 /* Debug */,
