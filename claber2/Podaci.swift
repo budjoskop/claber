@@ -25,4 +25,5 @@ class Podaci: NSObject {
     var checkDate: Date?
     var eventCalendar: Calendar?
     var timeOfEvent: String?
+    var eventId: String?
 }

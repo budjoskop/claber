@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UIScrollViewDelegate {
+class Clubs: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UIScrollViewDelegate {
     
     
     var celija = MasterCell()
@@ -29,7 +29,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let imageView = UIImageView()
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
+        refreshControl.addTarget(self, action: #selector(Clubs.handleRefresh(_:)), for: UIControlEvents.valueChanged)
         refreshControl.tintColor = UIColor.white
         return refreshControl
     }()
@@ -41,14 +41,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableViewOutlet: UITableView!
     @IBOutlet weak var warningOutlet: UILabel!
     @IBOutlet weak var searchBarOutlet: UISearchBar!
+    @IBOutlet weak var searchBarBtnOutlet: UIBarButtonItem!
     @IBOutlet weak var datePickerViewOutlet: UIView!
     @IBOutlet weak var datePickerOutlet: UIDatePicker!
-    @IBOutlet weak var dateLabelOutlet: UILabel!
-    @IBOutlet weak var dateBtnOutlet: UIButton!
+    @IBOutlet weak var dateLabelOutlet: UIBarButtonItem!
     @IBOutlet weak var resetBtnOutlet: UIButton!
     @IBOutlet weak var doneBtnOutlet: UIButton!
-    @IBOutlet weak var dateInfoViewOutlet: UIView!
     @IBOutlet weak var infoDateOutlet: UILabel!
+    @IBOutlet weak var dateBtnOutlet: UIBarButtonItem!
+    @IBOutlet weak var contactOutlet: UIBarButtonItem!
+    @IBOutlet weak var accordianOutlet: UIBarButtonItem!
+    
+    
 
     
 /////////////////////// DIDLOAD ///////////////////////
@@ -56,23 +60,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        tableViewOutlet.contentInset = UIEdgeInsets(top: 54, left: 0, bottom: 64, right: 0)
-        dateInfoViewOutlet.layer.borderWidth = 0.4
-        dateInfoViewOutlet.layer.borderColor = UIColor.black.cgColor
+        tableViewOutlet.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 64, right: 0)
         tableViewOutlet.layer.borderWidth = 0.4
         tableViewOutlet.layer.borderColor = UIColor.black.cgColor
         warningOutlet.isHidden = true
         datePickerViewOutlet.isHidden = true
         infoDateOutlet.isHidden = true
-        dateBtnOutlet.layer.cornerRadius = 12
         doneBtnOutlet.layer.cornerRadius = 12
         resetBtnOutlet.layer.cornerRadius = 12
         dateFormatFunkcija()
         tableViewOutlet.backgroundColor = UIColor.black
         proveriNet()
         date()
-        loadDate = dateLabelOutlet.text!
+        loadDate = dateLabelOutlet.title!
         print("OVO JE DATUM PRILIKOM LOAD-a \(loadDate)")
+        searchBarOutlet.isHidden = true
+        dateLabelOutlet.isEnabled = false
+        navigationItem.hidesBackButton = true 
         self.tableViewOutlet.addSubview(self.refreshControl)
     }
     
@@ -115,7 +119,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             monthFilter = calendar.component(.month, from: loadDateFromPicker!)
             print ("do ovde si uspeo da doguras \(dateFilter)")
             self.dayArray = self.podaci!.filter({return $0.month == monthFilter && $0.day == dateFilter })
-            dateLabelOutlet.text = "\(returnDate)"
+            dateLabelOutlet.title! = "\(returnDate)"
         }
     
         if dayArray.count == 0  {
@@ -165,7 +169,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 cell.timeOutlet.textColor = UIColor.white
             
             }
-        cell.contentView.alpha = 1
         return cell
     }
     
@@ -188,6 +191,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         searchBarOutlet.resignFirstResponder()
+        UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = 0}
+        searchBarOutlet.isHidden = true
         searchBarOutlet.endEditing(true)
         searchBarOutlet.showsCancelButton = false
     }
@@ -197,9 +202,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
 /////////////////////// SEQUE ///////////////////////
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    
-    
         if segue.identifier == "masterSegvej" {
+            searchBarOutlet.resignFirstResponder()
             let backItem = UIBarButtonItem()
             backItem.title = "Back"
             navigationItem.backBarButtonItem = backItem
@@ -209,13 +213,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             svc.mesto = dayArray[indexPath.row].place
             svc.opis = self.dayArray[indexPath.row].desc
             svc.date = self.dayArray[indexPath.row].date
+            svc.eventId = self.dayArray[indexPath.row].eventId
             svc.slika = self.dayArray[indexPath.row].imageUrl
         } else if segue.identifier == "contact" {
                 let backItem = UIBarButtonItem()
                 backItem.title = "Back"
                 navigationItem.backBarButtonItem = backItem
+        } else if segue.identifier == "switch" {
+            let backItem = UIBarButtonItem()
+            backItem.title = "Back"
+            navigationItem.backBarButtonItem = backItem
+        } else if segue.identifier == "klabane" {
+            searchBarOutlet.resignFirstResponder()
+            let backItem = UIBarButtonItem()
+            backItem.title = "Back"
+            navigationItem.backBarButtonItem = backItem
+            let svc = segue.destination as! EventDetailViewController
+            let indexPath = self.tableViewOutlet.indexPathForSelectedRow!
+            svc.dogadjaj = dayArray[indexPath.row].event
+            svc.mesto = dayArray[indexPath.row].place
+            svc.opis = self.dayArray[indexPath.row].desc
+            svc.date = self.dayArray[indexPath.row].date
+            svc.eventId = self.dayArray[indexPath.row].eventId
+            svc.slika = self.dayArray[indexPath.row].imageUrl
             }
-        }
+    }
     
 
     
@@ -257,7 +279,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                             let place = podatakJson["ClubName"] as? String,
                             let eventDate = podatakJson["EventStartTime"] as? String,
                             let eventStreet = podatakJson["EventStreet"] as? String,
-                            let clubImage = podatakJson ["ClubImage"] as? String {
+                            let clubImage = podatakJson ["ClubImage"] as? String,
+                            let eventId = podatakJson["EventId"] as? String {
+                            data.eventId = eventId
                             data.event = title
                             data.desc = description
                             data.imageUrl = urlImage
@@ -289,6 +313,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     }
                 }
                 catch let error {
+                    self.whoops()
                     print(error)
             }
         }
@@ -367,6 +392,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
 /////////////////////// Funkcije za SEARCH //////////////////////////
+  
+    @IBAction func searchBtn(_ sender: Any) {
+        if searchBarOutlet.isHidden == true {
+            
+            searchBarOutlet.isHidden = false
+            UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = 65}
+            searchBarOutlet.becomeFirstResponder()
+        } else {
+            UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = 0}
+            searchBarOutlet.isHidden = true
+            searchBarOutlet.resignFirstResponder()
+        }
+    }
     
     func resetArray () {
         if dayArrayUnfiltered.count == 0  {
@@ -379,6 +417,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         podaci! = filterArray
         searchBarOutlet.endEditing(true)
         searchBarOutlet.resignFirstResponder()
+        UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = 0}
+        searchBarOutlet.isHidden = true
         searchBarOutlet.showsCancelButton = false
         print ("ovde si usao")
     }
@@ -451,12 +491,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         dateFormater.dateFormat = "dd/MM/yy"
         let inputDate = dateFormater.string(from: datum)
        // print (inputDate)
-        dateLabelOutlet.text = "\(inputDate)"
+        dateLabelOutlet.title! = "\(inputDate)"
     }
     
+    
     @IBAction func dateBtn(_ sender: Any) {
+        accordianOutlet.isEnabled = false
+        contactOutlet.isEnabled = false
+        dateBtnOutlet.isEnabled = false
+        searchBarBtnOutlet.isEnabled = false
         datePickerViewOutlet.isHidden = false
-        dateLabelOutlet.isHidden = true
         resetBtnOutlet.isHidden = true
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -466,16 +510,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableViewOutlet.isScrollEnabled = false
         tableViewOutlet.allowsSelection = false
         infoDateOutlet.isHidden = false
-        dateBtnOutlet.isHidden = true
         searchBarOutlet.isUserInteractionEnabled = false
         UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = -100}
-        
         dayArrayUnfiltered = []
     }
     
+
     @IBAction func doneBtn(_ sender: Any) {
+        accordianOutlet.isEnabled = true
+        contactOutlet.isEnabled = true
+        dateBtnOutlet.isEnabled = true
+        searchBarBtnOutlet.isEnabled = true
         datePickerViewOutlet.isHidden = true
-        dateLabelOutlet.isHidden = false
         infoDateOutlet.isHidden = true
         searchBarOutlet.isUserInteractionEnabled = true
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
@@ -489,13 +535,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = 0}
         tableViewOutlet.isScrollEnabled = true
-        dateBtnOutlet.isHidden = false
         tableViewOutlet.allowsSelection = true
         let dateFormater = DateFormatter()
         let calendar = Calendar.current
         dateFormater.dateFormat = "dd/MM/yy"
         let inputDate = dateFormater.string(from: datePickerOutlet.date)
-        dateLabelOutlet.text = "\(inputDate)"
+        dateLabelOutlet.title! = "\(inputDate)"
         let loadDateFromPicker = formatter.date(from: loadDate)
         dateFilter = calendar.component(.day, from: loadDateFromPicker!)
         print("Sad si uspeo ovo da izaberese \(dateFilter)")
@@ -512,7 +557,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "dd/MM/yy"
         let inputDate = dateFormater.string(from: datum)
-        dateLabelOutlet.text = "\(inputDate)"
+        dateLabelOutlet.title! = "\(inputDate)"
         datePickerOutlet.date = Date()
         resetBtnOutlet.isHidden = true
         dayArrayUnfiltered = []
@@ -526,8 +571,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 /////////////////////// kraj Funkcije DatePicker-a ///////////////////////
     
 } /////////////// KRAJ KLASE UIVIEW KONTROLER
-
-
 
 
 
@@ -566,4 +609,10 @@ extension UIImageView {
         task.resume()
     }
 }
+
+
+
+
+
+
 

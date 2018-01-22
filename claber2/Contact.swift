@@ -22,7 +22,7 @@ class Contact: UIViewController, MFMailComposeViewControllerDelegate {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
-            mail.setToRecipients(["gtomicognjen@gmail.com"])
+            mail.setToRecipients(["gtomicognjen@gmail.com", "dperkosan@gmail.com"])
             mail.setSubject("Add my club to your app")
             mail.setMessageBody("<p>You're so awesome!</p>", isHTML: true)
             present(mail, animated: true)

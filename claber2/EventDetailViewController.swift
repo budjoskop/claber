@@ -22,6 +22,7 @@ class EventDetailViewController: UIViewController {
     var opis:String?
     var date:String?
     var dateAction: String?
+    var eventId: String?
     
     
     
@@ -46,7 +47,6 @@ class EventDetailViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         ubacivanjePodataka()
-        addEventBtnOutlet.layer.cornerRadius = 12
         title = mesto
         self.navigationController?.navigationBar.tintColor = UIColor.black
     }
@@ -77,18 +77,17 @@ class EventDetailViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "rewind" {
             let eventVC = segue.destination as! UINavigationController
-            let vc = eventVC.topViewController as! ViewController
+            let vc = eventVC.topViewController as! Clubs
             vc.returnDate = convertDateFormater(date!)
         }
     }
     
     
-    
-    @IBAction func addCalendarActionBtn(_ sender: Any) {
-        displayAlert()
-       
-    }
+   
 
+    @IBAction func saveEventBtn(_ sender: Any) {
+        displayAlert()
+    }
     
     
     func displayAlert () {
@@ -128,12 +127,21 @@ class EventDetailViewController: UIViewController {
     }
     
     
+    func displayShareSheet(shareContent:String) {
+        let activityViewController = UIActivityViewController(activityItems: [shareContent as NSString], applicationActivities: nil)
+        present(activityViewController, animated: true, completion: {})
+    }
+
+    @IBAction func shareBtn(_ sender: Any) {
+        displayShareSheet(shareContent: "http://www.facebook.com/\(eventId!)")
+    }
+    
     func ubacivanjePodataka() {
         dogadjajOutlet.text = dogadjaj
         mestoOutlet.text = mesto
         opisOutlet.text = opis
         eventImageOutlet.downloadImage(from: slika!)
-        dateOutlet.text = "\(convertDateFormater(date!))"
+        dateOutlet.text = "Date: \(convertDateFormater(date!))"
         timeOutlet.text = "Event starts: \(convertTimeFormater(date!))"
     }
 

@@ -9,12 +9,13 @@
 /* Begin PBXBuildFile section */
 		244E711120151DFF007E7071 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244E711020151DFF007E7071 /* Contact.swift */; };
 		244E7113201522F0007E7071 /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = 244E7112201522F0007E7071 /* title.png */; };
+		244E71152016755B007E7071 /* Clabane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244E71142016755B007E7071 /* Clabane.swift */; };
 		951BDBF71EF7010D00EC0E39 /* SegueFromRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951BDBF61EF7010D00EC0E39 /* SegueFromRight.swift */; };
 		95B914941EF1D354004E0303 /* SegueFromLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B914931EF1D354004E0303 /* SegueFromLeft.swift */; };
 		95F37CB71EEB359E00F46F38 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F37CB61EEB359E00F46F38 /* EventDetailViewController.swift */; };
 		95F37CBB1EEC6F7700F46F38 /* Dostupnost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F37CBA1EEC6F7700F46F38 /* Dostupnost.swift */; };
 		95F555B01EE8821700B31104 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F555AF1EE8821700B31104 /* AppDelegate.swift */; };
-		95F555B21EE8821700B31104 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F555B11EE8821700B31104 /* ViewController.swift */; };
+		95F555B21EE8821700B31104 /* Clubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F555B11EE8821700B31104 /* Clubs.swift */; };
 		95F555B51EE8821700B31104 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95F555B31EE8821700B31104 /* Main.storyboard */; };
 		95F555B81EE8821700B31104 /* claber2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 95F555B61EE8821700B31104 /* claber2.xcdatamodeld */; };
 		95F555BA1EE8821700B31104 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95F555B91EE8821700B31104 /* Assets.xcassets */; };
@@ -45,13 +46,14 @@
 /* Begin PBXFileReference section */
 		244E711020151DFF007E7071 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		244E7112201522F0007E7071 /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title.png; sourceTree = "<group>"; };
+		244E71142016755B007E7071 /* Clabane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clabane.swift; sourceTree = "<group>"; };
 		951BDBF61EF7010D00EC0E39 /* SegueFromRight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueFromRight.swift; sourceTree = "<group>"; };
 		95B914931EF1D354004E0303 /* SegueFromLeft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueFromLeft.swift; sourceTree = "<group>"; };
 		95F37CB61EEB359E00F46F38 /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		95F37CBA1EEC6F7700F46F38 /* Dostupnost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Dostupnost.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		95F555AC1EE8821700B31104 /* claber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = claber.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F555AF1EE8821700B31104 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		95F555B11EE8821700B31104 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		95F555B11EE8821700B31104 /* Clubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clubs.swift; sourceTree = "<group>"; };
 		95F555B41EE8821700B31104 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		95F555B71EE8821700B31104 /* claber2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = claber2.xcdatamodel; sourceTree = "<group>"; };
 		95F555B91EE8821700B31104 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -105,7 +107,8 @@
 		95B914961EF1D628004E0303 /* Kontroleri */ = {
 			isa = PBXGroup;
 			children = (
-				95F555B11EE8821700B31104 /* ViewController.swift */,
+				95F555B11EE8821700B31104 /* Clubs.swift */,
+				244E71142016755B007E7071 /* Clabane.swift */,
 				95F37CB61EEB359E00F46F38 /* EventDetailViewController.swift */,
 				244E711020151DFF007E7071 /* Contact.swift */,
 			);
@@ -323,7 +326,8 @@
 				244E711120151DFF007E7071 /* Contact.swift in Sources */,
 				95F555B81EE8821700B31104 /* claber2.xcdatamodeld in Sources */,
 				95F555E51EE9D31400B31104 /* Podaci.swift in Sources */,
-				95F555B21EE8821700B31104 /* ViewController.swift in Sources */,
+				244E71152016755B007E7071 /* Clabane.swift in Sources */,
+				95F555B21EE8821700B31104 /* Clubs.swift in Sources */,
 				95F555B01EE8821700B31104 /* AppDelegate.swift in Sources */,
 				95B914941EF1D354004E0303 /* SegueFromLeft.swift in Sources */,
 				95F555E11EE9C81900B31104 /* MasterCell.swift in Sources */,
