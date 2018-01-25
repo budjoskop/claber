@@ -30,7 +30,7 @@ class Clubs: UIViewController, UITableViewDataSource, UITableViewDelegate, UISea
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(Clubs.handleRefresh(_:)), for: UIControlEvents.valueChanged)
-        refreshControl.tintColor = UIColor.white
+        refreshControl.tintColor = UIColor.black
         return refreshControl
     }()
     
@@ -51,6 +51,7 @@ class Clubs: UIViewController, UITableViewDataSource, UITableViewDelegate, UISea
     @IBOutlet weak var dateBtnOutlet: UIBarButtonItem!
     @IBOutlet weak var contactOutlet: UIBarButtonItem!
     @IBOutlet weak var accordianOutlet: UIBarButtonItem!
+    @IBOutlet weak var toolBarOutlet: UIToolbar!
     
     
 
@@ -66,19 +67,28 @@ class Clubs: UIViewController, UITableViewDataSource, UITableViewDelegate, UISea
         warningOutlet.isHidden = true
         datePickerViewOutlet.isHidden = true
         infoDateOutlet.isHidden = true
+        accordianOutlet.isEnabled = false
         doneBtnOutlet.layer.cornerRadius = 12
         resetBtnOutlet.layer.cornerRadius = 12
         dateFormatFunkcija()
-        tableViewOutlet.backgroundColor = UIColor.black
+        tableViewOutlet.backgroundColor = UIColor.white
         proveriNet()
         date()
         loadDate = dateLabelOutlet.title!
         print("OVO JE DATUM PRILIKOM LOAD-a \(loadDate)")
         searchBarOutlet.isHidden = true
         dateLabelOutlet.isEnabled = false
-        navigationItem.hidesBackButton = true 
+        navigationItem.hidesBackButton = true
+        self.accordianOutlet.width = self.view.bounds.width / 4
+        self.dateBtnOutlet.width = self.view.bounds.width / 4
+        self.dateLabelOutlet.width = self.view.bounds.width / 4
+        self.contactOutlet.width = self.view.bounds.width / 4
+        self.navigationItem.rightBarButtonItem?.width = self.view.bounds.width / 4
         self.tableViewOutlet.addSubview(self.refreshControl)
+        
     }
+    
+    
     
     
     
@@ -150,23 +160,12 @@ class Clubs: UIViewController, UITableViewDataSource, UITableViewDelegate, UISea
                 cell.addressOutlet.text =  self.dayArray[indexPath.row].address
                 cell.imageOutlet.downloadImage(from: (self.dayArray[indexPath.row].clubUrl)!) //ovo levo ima veze sa ektenzijom za UIImageView
                 cell.timeOutlet.text  = self.dayArray[indexPath.row].timeOfEvent
-//              cell.backgroundView?.contentMode = .scaleToFill
-//                func getRandomColor() -> UIColor{
-//                    //Generate between 0 to 1
-//                    let red:CGFloat = CGFloat(drand48())
-//                    let green:CGFloat = CGFloat(drand48())
-//                    let blue:CGFloat = CGFloat(drand48())
-//                    return UIColor(red:red, green: green, blue: blue, alpha: 0.3)
-//                    }
-//                let randColor =  getRandomColor()
-//                cell.cellEfectOutlet.backgroundColor = randColor
-//                cell.effectBackground.downloadImage(from: (self.dayArray[indexPath.row].imageUrl)!)
-                cell.backgroundColor = UIColor.black
-                cell.eventOutlet.textColor = UIColor.white
-                cell.placeOutlet.textColor = UIColor.white
-                cell.descOutlet.textColor = UIColor.white
-                cell.addressOutlet.textColor = UIColor.white
-                cell.timeOutlet.textColor = UIColor.white
+                cell.backgroundColor = UIColor.white
+                cell.eventOutlet.textColor = UIColor.black
+                cell.placeOutlet.textColor = UIColor.black
+                cell.descOutlet.textColor = UIColor.black
+                cell.addressOutlet.textColor = UIColor.black
+                cell.timeOutlet.textColor = UIColor.black
             
             }
         return cell
@@ -188,8 +187,23 @@ class Clubs: UIViewController, UITableViewDataSource, UITableViewDelegate, UISea
 //    }
     
   
+    @IBAction func backToTopBtn(_ sender: Any) {
+        tableViewOutlet.setContentOffset(CGPoint.zero, animated: true)
+    }
+    
+    
+    func backToTop () {
+        if tableViewOutlet.contentOffset.y > 400 {
+            accordianOutlet.isEnabled = true
+        } else {
+            accordianOutlet.isEnabled = false
+        }
+    }
+    
+    
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        backToTop()
         searchBarOutlet.resignFirstResponder()
         UIView.animate(withDuration: 0.3) {self.tableViewOutlet.frame.origin.y = 0}
         searchBarOutlet.isHidden = true
@@ -215,6 +229,11 @@ class Clubs: UIViewController, UITableViewDataSource, UITableViewDelegate, UISea
             svc.date = self.dayArray[indexPath.row].date
             svc.eventId = self.dayArray[indexPath.row].eventId
             svc.slika = self.dayArray[indexPath.row].imageUrl
+            svc.eventPhone = self.dayArray[indexPath.row].phone
+            svc.address = self.dayArray[indexPath.row].address
+            svc.latitudeClub = self.dayArray[indexPath.row].latitudeEvent
+            svc.longitudeClub = self.dayArray[indexPath.row].longitudeEvent
+            
         } else if segue.identifier == "contact" {
                 let backItem = UIBarButtonItem()
                 backItem.title = "Back"
@@ -223,20 +242,7 @@ class Clubs: UIViewController, UITableViewDataSource, UITableViewDelegate, UISea
             let backItem = UIBarButtonItem()
             backItem.title = "Back"
             navigationItem.backBarButtonItem = backItem
-        } else if segue.identifier == "klabane" {
-            searchBarOutlet.resignFirstResponder()
-            let backItem = UIBarButtonItem()
-            backItem.title = "Back"
-            navigationItem.backBarButtonItem = backItem
-            let svc = segue.destination as! EventDetailViewController
-            let indexPath = self.tableViewOutlet.indexPathForSelectedRow!
-            svc.dogadjaj = dayArray[indexPath.row].event
-            svc.mesto = dayArray[indexPath.row].place
-            svc.opis = self.dayArray[indexPath.row].desc
-            svc.date = self.dayArray[indexPath.row].date
-            svc.eventId = self.dayArray[indexPath.row].eventId
-            svc.slika = self.dayArray[indexPath.row].imageUrl
-            }
+        } 
     }
     
 
@@ -280,7 +286,10 @@ class Clubs: UIViewController, UITableViewDataSource, UITableViewDelegate, UISea
                             let eventDate = podatakJson["EventStartTime"] as? String,
                             let eventStreet = podatakJson["EventStreet"] as? String,
                             let clubImage = podatakJson ["ClubImage"] as? String,
-                            let eventId = podatakJson["EventId"] as? String {
+                            let eventId = podatakJson["EventId"] as? String,
+                            let phone = podatakJson["Phone"] as? String,
+                            let latitude = podatakJson["Latitude"] as? String,
+                            let longitude = podatakJson["Longitude"] as? String{
                             data.eventId = eventId
                             data.event = title
                             data.desc = description
@@ -289,6 +298,9 @@ class Clubs: UIViewController, UITableViewDataSource, UITableViewDelegate, UISea
                             data.clubUrl = clubImage
                             data.date = eventDate
                             data.address = eventStreet
+                            data.phone = phone
+                            data.latitudeEvent = latitude
+                            data.longitudeEvent = longitude
                             self.formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
                             data.checkDate = self.formatter.date(from: data.date!)
                             let calendar = Calendar.current
@@ -476,6 +488,20 @@ class Clubs: UIViewController, UITableViewDataSource, UITableViewDelegate, UISea
     
 /////////////////////// Funkcije DatePicker-a ///////////////////////
     
+    func displayTodayBtn () {
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "dd/MM/yy"
+        let inputDate = dateFormater.string(from: datum)
+        print (inputDate)
+        print (dateLabelOutlet.title!)
+        if dateLabelOutlet.title! == inputDate {
+            resetBtnOutlet.isHidden = true
+        } else {
+            resetBtnOutlet.isHidden = false
+        }
+    }
+    
+    
     func date(){
         let date = Date()
         var components = DateComponents()
@@ -496,12 +522,12 @@ class Clubs: UIViewController, UITableViewDataSource, UITableViewDelegate, UISea
     
     
     @IBAction func dateBtn(_ sender: Any) {
+        displayTodayBtn()
         accordianOutlet.isEnabled = false
         contactOutlet.isEnabled = false
         dateBtnOutlet.isEnabled = false
         searchBarBtnOutlet.isEnabled = false
         datePickerViewOutlet.isHidden = false
-        resetBtnOutlet.isHidden = true
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = tableViewOutlet.bounds
@@ -517,7 +543,8 @@ class Clubs: UIViewController, UITableViewDataSource, UITableViewDelegate, UISea
     
 
     @IBAction func doneBtn(_ sender: Any) {
-        accordianOutlet.isEnabled = true
+        tableViewOutlet.contentOffset.y = 0
+        accordianOutlet.isEnabled = false
         contactOutlet.isEnabled = true
         dateBtnOutlet.isEnabled = true
         searchBarBtnOutlet.isEnabled = true

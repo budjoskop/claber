@@ -14,7 +14,7 @@ class EventDetailViewController: UIViewController {
     
     //promenljive za prenos podataka iz ViewControllera
     
-    var slika:String? //proveriti da li je mozda UIImage
+    var slika:String? 
     var datum:String?
     var vreme:String?
     var dogadjaj:String?
@@ -23,8 +23,13 @@ class EventDetailViewController: UIViewController {
     var date:String?
     var dateAction: String?
     var eventId: String?
-    
-    
+    var eventPhone: String?
+    var address:String?
+    var clubImage:String?
+    var latitudeClub:String?
+    var longitudeClub: String?
+    var latitudeDouble: Double?
+    var longitudeDouble: Double?
     
     
     //Outleti
@@ -33,12 +38,16 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var visualOutlet: UIVisualEffectView!
     @IBOutlet weak var dateOutlet: UILabel!
     @IBOutlet weak var dogadjajOutlet: UITextView!
-    @IBOutlet weak var mestoOutlet: UILabel!
+    //@IBOutlet weak var mestoOutlet: UILabel!
+    @IBOutlet weak var mestoOutlet: UIButton!
     @IBOutlet weak var opisOutlet: UITextView!
     @IBOutlet weak var titleOutlet: UINavigationItem!
-    @IBOutlet weak var containerOutlet: UIView!
     @IBOutlet weak var timeOutlet: UILabel!
-    @IBOutlet weak var addEventBtnOutlet: UIButton!
+    @IBOutlet weak var phoneOutlet: UIBarButtonItem!
+    @IBOutlet weak var locationOutlet: UIBarButtonItem!
+    @IBOutlet weak var toolBarOutlet: UIToolbar!
+    @IBOutlet weak var shareOutlet: UIBarButtonItem!
+    @IBOutlet weak var saveEventOutlet: UIBarButtonItem!
     
     
  
@@ -49,6 +58,12 @@ class EventDetailViewController: UIViewController {
         ubacivanjePodataka()
         title = mesto
         self.navigationController?.navigationBar.tintColor = UIColor.black
+        checkPhoneString()
+        checkLongitudeLatidude()
+        self.saveEventOutlet.width = self.view.bounds.width / 4
+        self.shareOutlet.width = self.view.bounds.width / 4
+        self.phoneOutlet.width = self.view.bounds.width / 4
+        self.locationOutlet.width = self.view.bounds.width / 4
     }
     
     override func viewDidLayoutSubviews() {
@@ -73,17 +88,26 @@ class EventDetailViewController: UIViewController {
     }
     
     
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "rewind" {
-            let eventVC = segue.destination as! UINavigationController
-            let vc = eventVC.topViewController as! Clubs
-            vc.returnDate = convertDateFormater(date!)
+    func checkPhoneString () {
+        if eventPhone != "" {
+            phoneOutlet.isEnabled = true
+            } else {
+            phoneOutlet.isEnabled = false
         }
     }
     
+    @IBAction func phoneBtn(_ sender: Any) {
+        
+            guard let url = URL(string: "tel://\(eventPhone!)") else {
+                return //be safe
+            }
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+    }
     
-   
 
     @IBAction func saveEventBtn(_ sender: Any) {
         displayAlert()
@@ -127,6 +151,16 @@ class EventDetailViewController: UIViewController {
     }
     
     
+    func checkLongitudeLatidude () {
+        if (longitudeClub != nil) && (latitudeClub != nil) {
+            locationOutlet.isEnabled = true
+            latitudeDouble = Double("\(latitudeClub!)") ?? 44.7866
+            longitudeDouble = Double("\(longitudeClub!)") ?? 20.4489
+        } else {
+            locationOutlet.isEnabled = false
+        }
+    }
+    
     func displayShareSheet(shareContent:String) {
         let activityViewController = UIActivityViewController(activityItems: [shareContent as NSString], applicationActivities: nil)
         present(activityViewController, animated: true, completion: {})
@@ -138,11 +172,40 @@ class EventDetailViewController: UIViewController {
     
     func ubacivanjePodataka() {
         dogadjajOutlet.text = dogadjaj
-        mestoOutlet.text = mesto
+        let yourAttributes : [NSAttributedStringKey: Any] = [
+            NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 16),
+            NSAttributedStringKey.foregroundColor : UIColor.black,
+            NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
+        let attributeString = NSMutableAttributedString(string: "\(mesto!)", attributes: yourAttributes)
+        mestoOutlet.setAttributedTitle(attributeString,for: .normal)
         opisOutlet.text = opis
         eventImageOutlet.downloadImage(from: slika!)
         dateOutlet.text = "Date: \(convertDateFormater(date!))"
         timeOutlet.text = "Event starts: \(convertTimeFormater(date!))"
     }
-
+    
+    @IBAction func openLinkBtn(_ sender: Any) {
+        guard let url = URL(string: "http://www.facebook.com/\(eventId!)") else {
+            return //be safe
+        }
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(url)
+        }
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if segue.identifier == "map" {
+                let svc = segue.destination as! MapController
+                svc.clubName = mesto
+                svc.clubAdress = mesto
+                svc.clubAdress = address
+                svc.longitude = longitudeDouble
+                svc.latitude = latitudeDouble
+            }
+        }
+    
+    
 }

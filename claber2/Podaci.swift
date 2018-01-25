@@ -26,4 +26,7 @@ class Podaci: NSObject {
     var eventCalendar: Calendar?
     var timeOfEvent: String?
     var eventId: String?
+    var phone: String?
+    var latitudeEvent: String?
+    var longitudeEvent: String?
 }
